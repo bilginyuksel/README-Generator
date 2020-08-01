@@ -31,7 +31,7 @@ public class TSReader implements RGFileReader {
             if (!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()))
                 parameterLine += (char) c;
         String[] parameters = parameterLine.split(",");
-        if(parameterLine.length() == 0) parameters = new String[0];
+        if(parameterLine.length() < 1) parameters = new String[0];
         for (String param : parameters) {
             TSVariable var = new TSVariable();
             String[] varBuilder = param.split(":");
@@ -69,6 +69,7 @@ public class TSReader implements RGFileReader {
                 eVariables+=(char) c;
 
         String[]eVarList = eVariables.split(",");
+        if(eVariables.length() < 1) eVarList = new String[0];
         for(String var : eVarList){
             String[] nava = var.split("=");
             TSEnum.EnumVar enumVar = new TSEnum.EnumVar(nava[0], nava[1]);
@@ -163,6 +164,76 @@ public class TSReader implements RGFileReader {
 
         // Find functions and variables inside class, and also their access specifiers too.
         // I need to find what are variables and functions.
+        String name = "";
+        String accessSpecifier = null;
+        while((c = reader.read()) != RGASCII.CURLY_CLOSING_BRACKET.getAscii()){
+
+            if(c == RGASCII.SPACE.getAscii() && name.length() > 0){
+                // this was probably an access specifier.
+                accessSpecifier = name;
+                name = "";
+                continue;
+            }
+
+            if(c == RGASCII.OPENING_PARANTHESIS.getAscii()){
+                // That means this is a function.
+                TSFunction tsFunction = new TSFunction();
+                tsFunction.setfName(name);
+                tsFunction.setAccessSpecifier(accessSpecifier==null?"default":accessSpecifier);
+                // tsFunction.setExport(according to access specifiers inherit)
+                String parameters = "";
+                c = reader.read();
+                while(c != RGASCII.CLOSING_PARANTHESIS.getAscii()){
+                    if(!(c == RGASCII.SPACE.getAscii() && c == RGASCII.NEW_LINE.getAscii() && c == RGASCII.LINE_FEED.getAscii()))
+                        parameters += (char) c;
+                    c = reader.read();
+                }
+                String[] paramList = parameters.split(",");
+                if(parameters.length() < 1) paramList = new String[0];
+                for(String param : paramList){
+                    TSVariable var = new TSVariable();
+                    String[] varBuilder = param.split(":");
+                    var.setName(varBuilder[0]);
+                    var.setType(varBuilder[1]);
+                    tsFunction.setParameter(var);
+                }
+
+                String returnType = "";
+                while((c = reader.read()) != RGASCII.CURLY_OPENING_BRACKET.getAscii()) { // find the return type
+                    if(!(c == RGASCII.SPACE.getAscii() && c == RGASCII.NEW_LINE.getAscii() && c == RGASCII.LINE_FEED.getAscii() && c == RGASCII.COLON.getAscii()))
+                        returnType += (char) c;
+                }
+                tsFunction.setReturnType(returnType);
+                while((c = reader.read()) != RGASCII.CURLY_CLOSING_BRACKET.getAscii()); // skip function body
+                tsClass.addFunction(tsFunction);
+            }else if(c == RGASCII.COLON.getAscii()){
+                // That means this is a variable
+                // Go until you find semicolon
+                TSVariable tsVariable = new TSVariable();
+                tsVariable.setName(name);
+                String var = "";
+                while((c = reader.read()) != RGASCII.SEMI_COLON.getAscii()){
+                    if(!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()))
+                        var += (char) c;
+                }
+                tsVariable.setAccessSpecifier(accessSpecifier==null?"default":accessSpecifier);
+                System.out.println("Var: "+ var);
+                if(var.contains("=")) {
+                    String splitted[] = var.split("=");
+                    tsVariable.setDefaultValue(splitted[1]);
+                    tsVariable.setType(splitted[0]);
+                } else{
+                    tsVariable.setDefaultValue(null);
+                    tsVariable.setType(var);
+                }
+                tsClass.addVariable(tsVariable);
+            }else if(!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii())){
+                name += (char) c;
+                continue;
+            }
+            name = "";
+            accessSpecifier = null;
+        }
 
         return tsClass;
     }

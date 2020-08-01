@@ -15,6 +15,14 @@ public class TSClass extends TSBaseComponent{
         this.functions = new ArrayList<>();
     }
 
+    public void addFunction(TSFunction function){
+        this.functions.add(function);
+    }
+
+    public void addVariable(TSVariable variable){
+        this.variables.add(variable);
+    }
+
     public void setClassName(String className) {
         this.className = className;
     }

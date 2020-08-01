@@ -5,12 +5,17 @@ public class TSVariable extends TSBaseComponent {
     private String name;
     private String type;
     private String defaultValue;
+    private String accessSpecifier;
 
     public TSVariable(){}
 
     public TSVariable(String name, String type){
         this.name = name;
         this.type = type;
+    }
+
+    public void setAccessSpecifier(String accessSpecifier) {
+        this.accessSpecifier = accessSpecifier;
     }
 
     public void setName(String name) {
@@ -23,6 +28,10 @@ public class TSVariable extends TSBaseComponent {
 
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
+    }
+
+    public String getAccessSpecifier() {
+        return accessSpecifier;
     }
 
     public String getName() {
@@ -39,7 +48,8 @@ public class TSVariable extends TSBaseComponent {
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", defaultValue='" + defaultValue + '\'' +
-                ", export='"+ isExport() +'\'' +
+                ", accessSpecifier='" + accessSpecifier + '\'' +
+                ", export=" + isExport() +
                 '}';
     }
 }

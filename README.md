@@ -13,3 +13,5 @@ __In readme.generator package RG* classes exists you can easily support new prog
 * When reading a variable which its type is a function like `() => void` it can't figure out the variable type.
 
 _To fix both of them I should'nt use split function to split properties. To fix it I should read it char by char instead of splitting the whole string._
+
+* Sometimes for class values adding extra spaces.

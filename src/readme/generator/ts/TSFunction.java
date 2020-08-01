@@ -11,6 +11,7 @@ public class TSFunction extends TSBaseComponent {
     private String returnType;
     private String fName;
     private String docString;
+    private String accessSpecifier;
 
     public TSFunction(String fName, String docString){
         this.fName = fName;
@@ -58,14 +59,23 @@ public class TSFunction extends TSBaseComponent {
         return returnType;
     }
 
+    public void setAccessSpecifier(String accessSpecifier) {
+        this.accessSpecifier = accessSpecifier;
+    }
+
+    public String getAccessSpecifier() {
+        return accessSpecifier;
+    }
+
     @Override
     public String toString() {
-        return "Function{" +
+        return "TSFunction{" +
                 "parameters=" + parameters +
                 ", returnType='" + returnType + '\'' +
                 ", fName='" + fName + '\'' +
                 ", docString='" + docString + '\'' +
-                ", export='" + isExport() + '\'' +
+                ", accessSpecifier='" + accessSpecifier + '\'' +
+                ", export=" + isExport() +
                 '}';
     }
 }
