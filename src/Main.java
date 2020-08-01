@@ -1,6 +1,7 @@
 import readme.generator.RGComponent;
 import readme.generator.RGFileData;
 import readme.generator.RGFileReader;
+import readme.generator.RGFileWriter;
 import readme.generator.ts.*;
 
 import java.io.IOException;
@@ -11,10 +12,13 @@ public class Main {
 
 
         RGFileReader rgFileReader = new TSReader();
+        RGFileWriter writer = new TSWriter();
+
         RGFileData rgFileData = null;
         try{
-            //rgFileData = rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\HMSAds.ts");
-            rgFileData = rgFileReader.read("types.ts");
+            rgFileData = rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\HMSAds.ts");
+            //rgFileData = rgFileReader.read("types.ts");
+            writer.generateREADME(rgFileData);
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -22,6 +26,8 @@ public class Main {
         for(RGComponent component : rgFileData.getComponentList()){
             System.out.println(component);
         }
+
+
 
     }
 }
