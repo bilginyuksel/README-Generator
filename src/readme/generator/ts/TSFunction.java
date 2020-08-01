@@ -5,7 +5,7 @@ import readme.generator.RGComponent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TSFunction implements RGComponent {
+public class TSFunction extends TSBaseComponent {
 
     private List<TSVariable> parameters;
     private String returnType;
@@ -65,6 +65,7 @@ public class TSFunction implements RGComponent {
                 ", returnType='" + returnType + '\'' +
                 ", fName='" + fName + '\'' +
                 ", docString='" + docString + '\'' +
+                ", export='" + isExport() + '\'' +
                 '}';
     }
 }

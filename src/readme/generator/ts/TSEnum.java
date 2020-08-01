@@ -5,7 +5,7 @@ import readme.generator.RGComponent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TSEnum implements RGComponent {
+public class TSEnum extends TSBaseComponent {
 
     private List<EnumVar> variableList;
     private String eName;
@@ -37,9 +37,10 @@ public class TSEnum implements RGComponent {
 
     @Override
     public String toString() {
-        return "Enum{" +
+        return "TSEnum{" +
                 "variableList=" + variableList +
                 ", eName='" + eName + '\'' +
+                ", export='" + isExport() + '\'' +
                 '}';
     }
 

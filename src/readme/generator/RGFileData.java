@@ -18,6 +18,11 @@ public class RGFileData {
         this.componentList.add(component);
     }
 
+    public void append(RGFileData data){
+        for(RGComponent c : data.getComponentList())
+            this.addComponent(c);
+    }
+
     public List<RGComponent> getComponentList() {
         return componentList;
     }

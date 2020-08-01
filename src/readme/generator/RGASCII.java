@@ -5,6 +5,7 @@ public enum RGASCII {
     NEW_LINE(10),
     LINE_FEED(13),
     COMMA(44),
+    SEMI_COLON(59) ,
     COLON(58),
     OPENING_PARANTHESIS(40),
     CLOSING_PARANTHESIS(41),

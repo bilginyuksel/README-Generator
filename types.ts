@@ -17,10 +17,10 @@ class TypeFunction{
   }
 
 }
-
-function test(): any{
+const lacin: number = 13;
+export function test(): any{
 }
-
+var yuksel: string = "hello world";
 class ClassFunction extends TypeFunction{
   private accessSpecifier: AccessSpecifier;
   
@@ -28,6 +28,8 @@ class ClassFunction extends TypeFunction{
     super(functionName);
   }
 }
+
+let fatoma: ();
 
 function sample(sample:string): Promise<string>{
 }

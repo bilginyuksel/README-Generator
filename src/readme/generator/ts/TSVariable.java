@@ -1,11 +1,10 @@
 package readme.generator.ts;
 
-import readme.generator.RGComponent;
-
-public class TSVariable implements RGComponent {
+public class TSVariable extends TSBaseComponent {
 
     private String name;
     private String type;
+    private String defaultValue;
 
     public TSVariable(){}
 
@@ -22,6 +21,10 @@ public class TSVariable implements RGComponent {
         this.type = type;
     }
 
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
     public String getName() {
         return name;
     }
@@ -32,9 +35,11 @@ public class TSVariable implements RGComponent {
 
     @Override
     public String toString() {
-        return "Variable{" +
+        return "TSVariable{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
+                ", defaultValue='" + defaultValue + '\'' +
+                ", export='"+ isExport() +'\'' +
                 '}';
     }
 }

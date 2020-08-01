@@ -9,22 +9,25 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TSReader implements RGFileReader {
 
 
-    private RGComponent readTsFunctionTemplate(BufferedReader reader) throws IOException{
+    private RGComponent readTsFunctionTemplate(BufferedReader reader, Boolean export) throws IOException{
         TSFunction tsFunction = new TSFunction();
+        tsFunction.setExport(export);
 
         String functionName = "";
         int c = 0;
-        while ((c = reader.read()) != 40)
+        while ((c = reader.read()) != RGASCII.OPENING_PARANTHESIS.getAscii())
             if(!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()))
                 functionName += (char) c;
         tsFunction.setfName(functionName);
 
         String parameterLine = "";
-        while ((c = reader.read()) != 41)  // Find the closing paranthesis
+        while ((c = reader.read()) != RGASCII.CLOSING_PARANTHESIS.getAscii())  // Find the closing paranthesis
             if (!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()))
                 parameterLine += (char) c;
         String[] parameters = parameterLine.split(",");
@@ -38,29 +41,30 @@ public class TSReader implements RGFileReader {
         }
 
         String returnType = "";
-        while ((c = reader.read()) != 123) // Find the starting curly bracket
+        while ((c = reader.read()) != RGASCII.CURLY_OPENING_BRACKET.getAscii()) // Find the starting curly bracket
             if (!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii() || c == RGASCII.COLON.getAscii()))
                 returnType += (char) c;
 
         tsFunction.setReturnType(returnType);
 
-        while (reader.read() != 125);// Finish function body according to end curly bracket
+        while (reader.read() != RGASCII.CURLY_CLOSING_BRACKET.getAscii());// Finish function body according to end curly bracket
 
         return tsFunction;
     }
 
-    private RGComponent readTsEnumTemplate(BufferedReader reader) throws IOException{
+    private RGComponent readTsEnumTemplate(BufferedReader reader, Boolean export) throws IOException{
         TSEnum tsEnum = new TSEnum();
+        tsEnum.setExport(export);
         String eName = "";
         int c = 0;
-        while((c = reader.read()) != 123)
+        while((c = reader.read()) != RGASCII.CURLY_OPENING_BRACKET.getAscii())
             if(!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()))
                 eName += (char) c;
 
         tsEnum.seteName(eName);
 
         String eVariables = "";
-        while((c = reader.read()) != 125)
+        while((c = reader.read()) != RGASCII.CURLY_CLOSING_BRACKET.getAscii())
             if(!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()))
                 eVariables+=(char) c;
 
@@ -74,8 +78,93 @@ public class TSReader implements RGFileReader {
         return tsEnum;
     }
 
-    private RGComponent readTsClassTemplate(BufferedReader reader){
-        return null;
+    private RGComponent readTsVariableTemplate(BufferedReader reader, Boolean export) throws IOException{
+        TSVariable tsVariable = new TSVariable();
+        tsVariable.setExport(export);
+
+        String var = "";
+        int c = reader.read();
+        while(c != RGASCII.NEW_LINE.getAscii() && c != RGASCII.LINE_FEED.getAscii() && c != RGASCII.SEMI_COLON.getAscii()){
+            if(c != RGASCII.SPACE.getAscii()) var+=(char) c;
+            c = reader.read();
+        }
+        if(var.contains("=")) {
+            String splitted[] = var.split("=");
+            tsVariable.setDefaultValue(splitted[1]);
+            tsVariable.setName(splitted[0].split(":")[0]);
+            tsVariable.setType(splitted[0].split(":")[1]);
+        } else{
+            tsVariable.setDefaultValue(null);
+            tsVariable.setName(var.split(":")[0]);
+            tsVariable.setType(var.split(":")[1]);
+        }
+
+        return tsVariable;
+    }
+
+    private RGComponent readTsInterfaceTemplate(BufferedReader reader, Boolean export) throws IOException{
+        TSInterface tsInterface = new TSInterface();
+        tsInterface.setExport(export);
+
+        String interfaceName = "";
+        int c = 0;
+        while((c = reader.read()) != RGASCII.CURLY_OPENING_BRACKET.getAscii())
+            if(!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()))
+                interfaceName += (char) c;
+        tsInterface.setInterfaceName(interfaceName);
+
+        String interfaceVar = "";
+        while((c = reader.read()) != RGASCII.CURLY_CLOSING_BRACKET.getAscii())
+            if(!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()))
+                interfaceVar += (char) c;
+
+        String [] elements = interfaceVar.split(";"); // SEMI_COLON
+        for(String elem : elements){
+            TSInterface.InterfaceElement element = new TSInterface.InterfaceElement();
+            if(elem.contains("=")) {
+                String splitted[] = elem.split("=");
+                element.setElementDefaultValue(splitted[1]);
+                element.setElementName(splitted[0].split(":")[0]);
+                element.setElementType(splitted[0].split(":")[1]);
+            } else{
+                element.setElementDefaultValue(null);
+                element.setElementName(elem.split(":")[0]);
+                element.setElementType(elem.split(":")[1]);
+            }
+
+            tsInterface.addElement(element);
+        }
+
+        return tsInterface;
+    }
+
+    private RGComponent readTsClassTemplate(BufferedReader reader, Boolean export) throws IOException{
+        TSClass tsClass = new TSClass();
+        tsClass.setExport(export);
+
+        String className = "";
+        List<String> classProps = new ArrayList<>(); // 1. Classname, 2. Keyword(implements, extends), 3. Other class name
+        int c = 0;
+        while(c != RGASCII.CURLY_OPENING_BRACKET.getAscii()){
+            c = reader.read();
+            if((c == RGASCII.SPACE.getAscii() || c == RGASCII.CURLY_OPENING_BRACKET.getAscii()) && className.length() > 1) {
+                classProps.add(className);
+                className = "";
+            }
+            else className += (char) c;
+        }
+
+        if(classProps.size() == 1) tsClass.setClassName(classProps.get(0));
+        else{
+            tsClass.setClassName(classProps.get(0));
+            tsClass.setSuffixKeyword(classProps.get(1));
+            tsClass.setSuffixClass(classProps.get(2));
+        }
+
+        // Find functions and variables inside class, and also their access specifiers too.
+        // I need to find what are variables and functions.
+
+        return tsClass;
     }
 
     @Override
@@ -87,20 +176,33 @@ public class TSReader implements RGFileReader {
 
         int c = 0;
         String keyw = "";
+        Boolean export = false;
         while((c = bufferedReader.read()) != -1){
             // Until end of the file
 
             if(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()){
                 if (keyw.length() < 1) continue;
 
+                if(keyw.equals("export")) {
+                    export = true;
+                    keyw = "";
+                    continue;
+                }
+
                 if(keyw.equals(TSKeywords.FUNCTION.getKeyword()))
-                    rgFileData.addComponent(readTsFunctionTemplate(bufferedReader));
+                    rgFileData.addComponent(readTsFunctionTemplate(bufferedReader, export));
                 else if(keyw.equals(TSKeywords.ENUM.getKeyword()))
-                    rgFileData.addComponent(readTsEnumTemplate(bufferedReader));
+                    rgFileData.addComponent(readTsEnumTemplate(bufferedReader, export));
+                else if(keyw.equals(TSKeywords.INTERFACE.getKeyword()))
+                    rgFileData.addComponent(readTsInterfaceTemplate(bufferedReader, export));
                 else if(keyw.equals(TSKeywords.CLASS.getKeyword()))
-                    rgFileData.addComponent(readTsClassTemplate(bufferedReader));
+                    rgFileData.addComponent(readTsClassTemplate(bufferedReader, export));
+                else if(TSKeywords.getVariableTypes().contains(keyw))
+                    rgFileData.addComponent(readTsVariableTemplate(bufferedReader, export));
+                // Try to simplify abstract class situation
 
                 keyw = "";
+                export = false;
             }else keyw += (char) c;
 
         }
@@ -109,7 +211,13 @@ public class TSReader implements RGFileReader {
     }
 
     @Override
-    public RGFileData read(String folderName, String extension) {
-        return null;
+    public RGFileData readAll(String folderName, String extension) throws IOException{
+
+        RGFileData mergedRGFileData = new RGFileData();
+        // Find all files under the folder specified.
+        // Also include every subfolders too...
+        // ---- *.extension
+        // mergedRGFileData.append();
+        return mergedRGFileData;
     }
 }
