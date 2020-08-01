@@ -1,6 +1,9 @@
 package readme.generator.ts;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +53,20 @@ public class TSClass extends TSBaseComponent{
 
     @Override
     public Map toMap() {
-        return null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("Title", this.className);
+        List<Pair<String, String>> fieldType = new ArrayList<>();
+        for(TSFunction tsFunction : functions){
+            StringBuilder builder = new StringBuilder();
+            builder.append(tsFunction.getfName()).append("(");
+            for(int i=0;i<tsFunction.getParameters().size(); ++i){
+                builder.append(tsFunction.getParameters().get(i).getName()).append(": ").
+                        append(tsFunction.getParameters().get(i).getType());
+                if(i+1 != tsFunction.getParameters().size()) builder.append(", ");
+            }builder.append(")");
+            fieldType.add(new Pair<>(builder.toString(), tsFunction.getReturnType()));
+        }
+        map.put("Field-Type", fieldType);
+        return map;
     }
 }

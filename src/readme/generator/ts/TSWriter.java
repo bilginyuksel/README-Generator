@@ -44,7 +44,7 @@ public class TSWriter implements RGFileWriter {
 
         StringBuilder data = new StringBuilder();
         for(int i=0;i<fileData.getComponentList().size(); ++i){
-            if((fileData.getComponentList().get(i) instanceof TSInterface) || (fileData.getComponentList().get(i) instanceof TSEnum)){
+            if(!(fileData.getComponentList().get(i) instanceof TSFunction || fileData.getComponentList().get(i) instanceof TSVariable)){
                 data.append(generator.makeTable(fileData.getComponentList().get(i)));
             }
         }

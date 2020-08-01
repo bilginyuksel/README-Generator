@@ -90,6 +90,7 @@ public class TSReader implements RGFileReader {
             c = reader.read();
         }
         if(var.contains("=")) {
+            System.out.println(var);
             String splitted[] = var.split("=");
             tsVariable.setDefaultValue(splitted[1]);
             tsVariable.setName(splitted[0].split(":")[0]);
@@ -188,11 +189,19 @@ public class TSReader implements RGFileReader {
                 tsFunction.setAccessSpecifier(accessSpecifier==null?"default":accessSpecifier);
                 // tsFunction.setExport(according to access specifiers inherit)
                 String parameters = "";
+                boolean isFunctionType = false;
                 c = reader.read();
                 while(c != RGASCII.CLOSING_PARANTHESIS.getAscii()){
+                    if(c == RGASCII.OPENING_PARANTHESIS.getAscii()) isFunctionType = true;
+
                     if(!(c == RGASCII.SPACE.getAscii() && c == RGASCII.NEW_LINE.getAscii() && c == RGASCII.LINE_FEED.getAscii()))
                         parameters += (char) c;
                     c = reader.read();
+                    if(isFunctionType){
+                        parameters += (char) c;
+                        c = reader.read();
+                        isFunctionType = false;
+                    }
                 }
                 String[] paramList = parameters.split(",");
                 if(parameters.length() < 1) paramList = new String[0];
@@ -206,7 +215,8 @@ public class TSReader implements RGFileReader {
 
                 String returnType = "";
                 while((c = reader.read()) != RGASCII.CURLY_OPENING_BRACKET.getAscii()) { // find the return type
-                    if(!(c == RGASCII.SPACE.getAscii() && c == RGASCII.NEW_LINE.getAscii() && c == RGASCII.LINE_FEED.getAscii() && c == RGASCII.COLON.getAscii()))
+                    if(!(c == RGASCII.SPACE.getAscii() || c == RGASCII.NEW_LINE.getAscii() ||
+                            c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.COLON.getAscii()))
                         returnType += (char) c;
                 }
                 tsFunction.setReturnType(returnType);

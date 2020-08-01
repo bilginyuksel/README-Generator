@@ -1,4 +1,4 @@
-###AdParam
+### AdParam
 |Field|Type|Description|
 |---|---|---|
 |gender?|`Gender`| |
@@ -10,7 +10,7 @@
 |appLang?|`string`| |
 |countryCode?|`string`| |
 
-###BannerAdOptions
+### BannerAdOptions
 |Field|Type|Description|
 |---|---|---|
 |adId?|`string`| |
@@ -19,7 +19,7 @@
 |anchor?|`'top' or 'bottom'`| |
 |bannerRefresh?|`number//long`| |
 
-###SplashAdLogoOptions
+### SplashAdLogoOptions
 |Field|Type|Description|
 |---|---|---|
 |hidden?|`boolean`| |
@@ -28,7 +28,7 @@
 |copyright?|`string`| |
 |bg?|`Colors`| |
 
-###SplashAdOptions
+### SplashAdOptions
 |Field|Type|Description|
 |---|---|---|
 |preload?|`boolean`| |
@@ -40,20 +40,20 @@
 |audioFocusType?|`AudioFocusType`| |
 |logo?|`SplashAdLogoOptions`| |
 
-###SplashAdLoadOptions
+### SplashAdLoadOptions
 |Field|Type|Description|
 |---|---|---|
 |orientation?|`ScreenOrientation`| |
 |adId?|`string`| |
 |ad?|`AdParam`| |
 
-###RewardVerifyConfig
+### RewardVerifyConfig
 |Field|Type|Description|
 |---|---|---|
 |data?|`string`| |
 |userId?|`string`| |
 
-###RewardAdOptions
+### RewardAdOptions
 |Field|Type|Description|
 |---|---|---|
 |adId?|`string`| |
@@ -62,32 +62,32 @@
 |immersive?|`boolean`| |
 |rewardVerifyConfig?|`RewardVerifyConfig`| |
 
-###InterstitialAdOptions
+### InterstitialAdOptions
 |Field|Type|Description|
 |---|---|---|
 |adId?|`string`| |
 
-###NativeAdOptions
+### NativeAdOptions
 |Field|Type|Description|
 |---|---|---|
 |div?|`string`| |
 |template?|`"small" or "full" or "banner" or "video"`| |
 |bg?|`Colors`| |
 
-###AdSize
+### AdSize
 |Field|Type|Description|
 |---|---|---|
 |width?|`number`| |
 |height?|`number`| |
 
-###VideoConfiguration
+### VideoConfiguration
 |Field|Type|Description|
 |---|---|---|
 |audioFocusType?|`AudioFocusType`| |
 |clickToFullScreenRequest?|`boolean`| |
 |startMuted?|`boolean`| |
 
-###NativeAdConfiguration
+### NativeAdConfiguration
 |Field|Type|Description|
 |---|---|---|
 |adSize?|`AdSize`| |
@@ -99,14 +99,14 @@
 |requestMultiImages?|`boolean`| |
 |videoConfiguration?|`VideoConfiguration`| |
 
-###NativeAdLoadOptions
+### NativeAdLoadOptions
 |Field|Type|Description|
 |---|---|---|
 |adId?|`string`| |
 |ad?|`AdParam`| |
 |nativeAdOptions?|`NativeAdConfiguration`| |
 
-###NativeAdProps
+### NativeAdProps
 |Field|Type|Description|
 |---|---|---|
 |width?|`number`| |
@@ -118,29 +118,29 @@
 |x?|`number`| |
 |y?|`number`| |
 
-###InitOptions
+### InitOptions
 |Field|Type|Description|
 |---|---|---|
 |appCode?|`string`| |
 |bannerFloat?|`boolean`| |
 
-###IsLoadingResult
+### IsLoadingResult
 |Field|Type|Description|
 |---|---|---|
 |isLoading?|`boolean`| |
 
-###IsLoadedResult
+### IsLoadedResult
 |Field|Type|Description|
 |---|---|---|
 |isLoaded?|`boolean`| |
 
-###OaidResult
+### OaidResult
 |Field|Type|Description|
 |---|---|---|
 |id?|`string`| |
 |isLimitAdTracingEnabled?|`boolean`| |
 
-###ReferrerDetails
+### ReferrerDetails
 |Field|Type|Description|
 |---|---|---|
 |responseCode?|`number`| |
@@ -148,7 +148,7 @@
 |referrerClickTimestamp?|`number`| |
 |installBeginTimestamp?|`number`| |
 
-###VerifyResult
+### VerifyResult
 |Field|Type|Description|
 |---|---|---|
 |result?|`boolean`| |
@@ -363,4 +363,55 @@
 |FEMALE|2|
 |MALE|1|
 |UNKNOWN|0|
+
+### Banner
+|Field|Return Type|Description|
+|---|---|---|
+|constructor()|``| |
+|on(eventName:  BannerAdEvents,  handler:  () => void)|`void`| |
+|create(options:  BannerAdOptions)|`Promise<Banner>`| |
+|loadAd(adParam:  AdParam)|`Promise<void>`| |
+|pause()|`Promise<void>`| |
+|resume()|`Promise<void>`| |
+|destroy()|`Promise<void>`| |
+
+### Splash
+|Field|Return Type|Description|
+|---|---|---|
+|constructor()|``| |
+|on(eventName:  SplashAdEvents,  handler:  () => void)|`void`| |
+|create(options:  SplashAdOptions)|`Promise<Splash>`| |
+|load(options:  SplashAdLoadOptions)|`Promise<void>`| |
+|show()|`Promise<void>`| |
+|destroy()|`Promise<void>`| |
+|cancel()|`Promise<void>`| |
+|pause()|`Promise<void>`| |
+|resume()|`Promise<void>`| |
+|isLoaded()|`Promise<IsLoadedResult>`| |
+|isLoading()|`Promise<IsLoadingResult>`| |
+
+### Interstitial
+|Field|Return Type|Description|
+|---|---|---|
+|constructor()|``| |
+|on(eventName:  InterstitialAdEvents,  handler:  () => void)|`void`| |
+|create(options:  InterstitialAdOptions)|`Promise<Interstitial>`| |
+|loadAd(adParam:  AdParam)|`Promise<void>`| |
+|show()|`Promise<void>`| |
+|destroy()|`Promise<void>`| |
+|isLoaded()|`Promise<IsLoadedResult>`| |
+|isLoading()|`Promise<IsLoadingResult>`| |
+
+### Reward
+|Field|Return Type|Description|
+|---|---|---|
+|constructor()|``| |
+|on(eventName:  RewardAdEvents,  handler:  () => void)|`void`| |
+|create(options:  RewardAdOptions)|`Promise<Reward>`| |
+|loadAd(adParam:  AdParam)|`Promise<void>`| |
+|show()|`Promise<void>`| |
+|pause()|`Promise<void>`| |
+|resume()|`Promise<void>`| |
+|destroy()|`Promise<void>`| |
+|isLoaded()|`Promise<IsLoadedResult>`| |
 
