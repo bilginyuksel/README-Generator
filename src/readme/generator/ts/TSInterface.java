@@ -1,9 +1,12 @@
 package readme.generator.ts;
 
+import javafx.util.Pair;
 import readme.generator.RGComponent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TSInterface extends TSBaseComponent {
     private String interfaceName;
@@ -28,6 +31,18 @@ public class TSInterface extends TSBaseComponent {
                 ", elementList=" + elementList +
                 ", export='" + isExport() + '\'' +
                 '}';
+    }
+
+    @Override
+    public Map toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Title", this.interfaceName);
+        List<Pair<String, String>> fieldType = new ArrayList<>();
+        for(InterfaceElement e : elementList){
+            fieldType.add(new Pair<>(e.elementName, e.elementType));
+        }
+        map.put("Field-Type", fieldType);
+        return map;
     }
 
     public static class InterfaceElement{

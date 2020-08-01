@@ -7,7 +7,7 @@ public class RGGenerator2 implements RGComponentGenerator {
 
 
     @Override
-    public String makeTable(RGComponent component, String heading, String... columns) {
+    public String makeTable(RGComponent component) {
         return null;
     }
 

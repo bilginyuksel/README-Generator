@@ -1,5 +1,8 @@
 package readme.generator.ts;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TSVariable extends TSBaseComponent {
 
     private String name;
@@ -51,6 +54,16 @@ public class TSVariable extends TSBaseComponent {
                 ", accessSpecifier='" + accessSpecifier + '\'' +
                 ", export=" + isExport() +
                 '}';
+    }
+
+    @Override
+    public Map toMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put("Field", this.name);
+        map.put("Type", this.type);
+        map.put("Default", this.defaultValue);
+        map.put("AccessSpecifier", this.accessSpecifier);
+        return map;
     }
 }
 

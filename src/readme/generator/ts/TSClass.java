@@ -2,6 +2,7 @@ package readme.generator.ts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TSClass extends TSBaseComponent{
     private String className;
@@ -45,5 +46,10 @@ public class TSClass extends TSBaseComponent{
                 ", functions=" + functions +
                 ", export=" + isExport() +
                 '}';
+    }
+
+    @Override
+    public Map toMap() {
+        return null;
     }
 }

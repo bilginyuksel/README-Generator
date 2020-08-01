@@ -4,6 +4,7 @@ import readme.generator.RGComponent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TSFunction extends TSBaseComponent {
 
@@ -77,5 +78,10 @@ public class TSFunction extends TSBaseComponent {
                 ", accessSpecifier='" + accessSpecifier + '\'' +
                 ", export=" + isExport() +
                 '}';
+    }
+
+    @Override
+    public Map toMap() {
+        return null;
     }
 }

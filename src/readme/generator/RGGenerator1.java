@@ -1,13 +1,46 @@
 package readme.generator;
 
+import javafx.util.Pair;
+import readme.generator.ts.TSEnum;
+import readme.generator.ts.TSInterface;
+
 import java.util.List;
 import java.util.Map;
 
 public class RGGenerator1 implements RGComponentGenerator{
 
     @Override
-    public String makeTable(RGComponent component, String heading, String ...columns) {
-        return null;
+    public String makeTable(RGComponent component) {
+        if(component.toMap() == null) return "";
+
+        if(component instanceof TSInterface){
+            Map<String, List<Pair<String, String>>> map = component.toMap();
+            String tableHeading = String.valueOf(map.get("Title"));
+            String table = new StringBuilder()
+                    .append("###")
+                    .append(tableHeading).append("\n")
+                    .append("|Field|Type|Description|\n")
+                    .append("|---|---|---|\n").toString();
+            List<Pair<String, String>> items = map.get("Field-Type");
+            for(Pair<String, String> pair : items)
+                table += "|"+ pair.getKey() + "|`" + pair.getValue() + "`| |\n";
+
+            return table + "\n";
+        }else if(component instanceof TSEnum){
+            Map<String, List<Pair<String, String>>> map = component.toMap();
+            String tableHeading = String.valueOf(map.get("Title"));
+            String table = new StringBuilder()
+                    .append("#### Enum ")
+                    .append(tableHeading).append("\n")
+                    .append("|Field|Value|\n")
+                    .append("|---|---|\n").toString();
+            List<Pair<String, String>> items = map.get("Field-Value");
+            for(Pair<String, String> pair : items)
+                table += "|"+ pair.getKey() + "|" + pair.getValue() + "|\n";
+
+            return table + "\n";
+        }
+        return "";
     }
 
     @Override

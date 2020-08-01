@@ -42,11 +42,17 @@ public class TSWriter implements RGFileWriter {
         String table = generator.mergedTable(mergedComponents, "Public Function Summary",
                 new String[]{"Parameters", "Return Type", "Description"});
 
-        File file = new File("TEST.md");
-        file.createNewFile();
-        Files.write(file.toPath(), table.getBytes());
+        StringBuilder data = new StringBuilder();
+        for(int i=0;i<fileData.getComponentList().size(); ++i){
+            if((fileData.getComponentList().get(i) instanceof TSInterface) || (fileData.getComponentList().get(i) instanceof TSEnum)){
+                data.append(generator.makeTable(fileData.getComponentList().get(i)));
+            }
+        }
 
-        System.out.println(table);
+        File file = new File("TEST2.md");
+        file.createNewFile();
+        Files.write(file.toPath(), data.toString().getBytes());
+
         return file;
     }
 }

@@ -16,7 +16,7 @@ public class Main {
 
         RGFileData rgFileData = null;
         try{
-            rgFileData = rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\HMSAds.ts");
+            rgFileData = rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\interfaces.ts");
             //rgFileData = rgFileReader.read("types.ts");
             writer.generateREADME(rgFileData);
         }catch (IOException e){

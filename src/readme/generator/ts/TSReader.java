@@ -115,13 +115,19 @@ public class TSReader implements RGFileReader {
         tsInterface.setInterfaceName(interfaceName);
 
         String interfaceVar = "";
-        while((c = reader.read()) != RGASCII.CURLY_CLOSING_BRACKET.getAscii())
-            if(!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()))
+        while((c = reader.read()) != RGASCII.CURLY_CLOSING_BRACKET.getAscii()){
+            if(!( c == RGASCII.SPACE.getAscii() || c == RGASCII.COMMA.getAscii() ||
+                    c == RGASCII.HORIZONTAL_TAB.getAscii())){
                 interfaceVar += (char) c;
+                //System.out.print(c+" ");
+            }
+        }//System.out.println();
 
-        String [] elements = interfaceVar.split(";"); // SEMI_COLON
+        String [] elements = interfaceVar.split("\r\n"); // SEMI_COLON
         for(String elem : elements){
+            if(elem.length()==0) continue;
             TSInterface.InterfaceElement element = new TSInterface.InterfaceElement();
+            elem = elem.replace("|", " or ");
             if(elem.contains("=")) {
                 String splitted[] = elem.split("=");
                 element.setElementDefaultValue(splitted[1]);

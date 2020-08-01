@@ -1,9 +1,8 @@
 package readme.generator.ts;
 
-import readme.generator.RGComponent;
+import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TSEnum extends TSBaseComponent {
 
@@ -42,6 +41,18 @@ public class TSEnum extends TSBaseComponent {
                 ", eName='" + eName + '\'' +
                 ", export='" + isExport() + '\'' +
                 '}';
+    }
+
+    @Override
+    public Map toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Title", this.eName);
+        List<Pair<String, String>> fieldValue = new ArrayList<>();
+        for(EnumVar e : this.variableList){
+            fieldValue.add(new Pair<>(e.vaName, e.vaValue));
+        }
+        map.put("Field-Value", fieldValue);
+        return map;
     }
 
     public static class EnumVar{
