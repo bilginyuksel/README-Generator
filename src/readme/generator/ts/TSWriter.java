@@ -7,11 +7,9 @@ import readme.generator.RGFileWriter;
 import readme.generator.RGGenerator1;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,24 +20,14 @@ public class TSWriter implements RGFileWriter {
         generator = new RGGenerator1();
     }
     @Override
-    public File generateREADME(RGFileData fileData) throws IOException {
+    public File generateREADME(RGFileData fileData, String outputFileName) throws IOException {
         List<Map<String, String>> mergedComponents = new ArrayList<>();
 
-        for(int i=0;i<fileData.getComponentList().size(); ++i){
-            if(fileData.getComponentList().get(i) instanceof TSFunction){
-                Map<String, String> map = new HashMap<>();
-                String parameters = ((TSFunction) fileData.getComponentList().get(i)).getfName()+"(";
-                for(TSVariable variable : ((TSFunction) fileData.getComponentList().get(i)).getParameters()){
-                    parameters += variable.getName()+":"+variable.getType()+", ";
-                }parameters += ")";
-                map.put("Parameters", parameters);
-                map.put("Return Type", ((TSFunction) fileData.getComponentList().get(i)).getReturnType());
-                map.put("Description","");
+        for(int i=0;i<fileData.getComponentList().size(); ++i)
+            if(fileData.getComponentList().get(i) instanceof TSFunction)
+                mergedComponents.add(fileData.getComponentList().get(i).toMap());
 
-                mergedComponents.add(map);
-            }
-        }
-        String table = generator.mergedTable(mergedComponents, "Public Function Summary",
+        String table = generator.mergedTable(mergedComponents, "Public Method Summary",
                 new String[]{"Parameters", "Return Type", "Description"});
 
         StringBuilder data = new StringBuilder();
@@ -49,7 +37,9 @@ public class TSWriter implements RGFileWriter {
             }
         }
 
-        File file = new File("TEST2.md");
+        data.append(table);
+
+        File file = new File(outputFileName);
         file.createNewFile();
         Files.write(file.toPath(), data.toString().getBytes());
 

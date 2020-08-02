@@ -18,7 +18,7 @@ public class RGGenerator1 implements RGComponentGenerator{
             Map<String, List<Pair<String, String>>> map = component.toMap();
             String tableHeading = String.valueOf(map.get("Title"));
             String table = new StringBuilder()
-                    .append("### ")
+                    .append("### Interface ")
                     .append(tableHeading).append("\n")
                     .append("|Field|Type|Description|\n")
                     .append("|---|---|---|\n").toString();
@@ -31,7 +31,7 @@ public class RGGenerator1 implements RGComponentGenerator{
             Map<String, List<Pair<String, String>>> map = component.toMap();
             String tableHeading = String.valueOf(map.get("Title"));
             String table = new StringBuilder()
-                    .append("#### Enum ")
+                    .append("### Enum ")
                     .append(tableHeading).append("\n")
                     .append("|Field|Value|\n")
                     .append("|---|---|\n").toString();
@@ -44,7 +44,7 @@ public class RGGenerator1 implements RGComponentGenerator{
             Map<String, List<Pair<String, String>>> map = component.toMap();
             String tableHeading = String.valueOf(map.get("Title"));
             StringBuilder table = new StringBuilder()
-                    .append("### ")
+                    .append("### Class ")
                     .append(tableHeading).append("\n")
                     .append("|Field|Return Type|Description|").append("\n")
                     .append("|---|---|---|").append("\n");

@@ -1,8 +1,7 @@
 package readme.generator.ts;
 
-import readme.generator.RGComponent;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -83,6 +82,17 @@ public class TSFunction extends TSBaseComponent {
 
     @Override
     public Map toMap() {
-        return null;
+        Map<String, String> map = new HashMap<>();
+        StringBuilder parameterBuilder = new StringBuilder();
+        parameterBuilder.append(this.getfName()).append("(");
+        for(int i=0; i<parameters.size(); ++i){
+            parameterBuilder.append(parameters.get(i).getName()).append(":").
+                    append(parameters.get(i).getType());
+            if(i+1 != parameters.size()) parameterBuilder.append(", ");
+        }parameterBuilder.append(")");
+        map.put("Parameters", parameterBuilder.toString());
+        map.put("Return Type", this.getReturnType());
+        map.put("Description","");
+        return map;
     }
 }

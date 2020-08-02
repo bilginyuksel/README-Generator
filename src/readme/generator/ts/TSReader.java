@@ -9,10 +9,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TSReader implements RGFileReader {
+public class TSReader extends RGFileReader {
 
 
     private RGComponent readTsFunctionTemplate(BufferedReader reader, Boolean export) throws IOException{
@@ -57,7 +58,6 @@ public class TSReader implements RGFileReader {
 
         return tsFunction;
     }
-
     private RGComponent readTsEnumTemplate(BufferedReader reader, Boolean export) throws IOException{
         TSEnum tsEnum = new TSEnum();
         tsEnum.setExport(export);
@@ -84,7 +84,6 @@ public class TSReader implements RGFileReader {
 
         return tsEnum;
     }
-
     private RGComponent readTsVariableTemplate(BufferedReader reader, Boolean export) throws IOException{
         TSVariable tsVariable = new TSVariable();
         tsVariable.setExport(export);
@@ -96,7 +95,6 @@ public class TSReader implements RGFileReader {
             c = reader.read();
         }
         if(var.contains("=")) {
-            System.out.println(var);
             String splitted[] = var.split("=");
             tsVariable.setDefaultValue(splitted[1]);
             if(splitted[0].contains(":")) {
@@ -114,7 +112,6 @@ public class TSReader implements RGFileReader {
 
         return tsVariable;
     }
-
     private RGComponent readTsInterfaceTemplate(BufferedReader reader, Boolean export) throws IOException{
         TSInterface tsInterface = new TSInterface();
         tsInterface.setExport(export);
@@ -156,7 +153,6 @@ public class TSReader implements RGFileReader {
 
         return tsInterface;
     }
-
     private RGComponent readTsClassTemplate(BufferedReader reader, Boolean export) throws IOException{
         TSClass tsClass = new TSClass();
         tsClass.setExport(export);
@@ -263,7 +259,6 @@ public class TSReader implements RGFileReader {
                     c = reader.read();
                 }
                 tsVariable.setAccessSpecifier(accessSpecifier==null?"default":accessSpecifier);
-                System.out.println("Var: "+ var);
                 if(var.contains("=")) {
                     String splitted[] = var.split("=");
                     tsVariable.setDefaultValue(splitted[1]);
@@ -327,14 +322,5 @@ public class TSReader implements RGFileReader {
         return rgFileData;
     }
 
-    @Override
-    public RGFileData readAll(String folderName, String extension) throws IOException{
 
-        RGFileData mergedRGFileData = new RGFileData();
-        // Find all files under the folder specified.
-        // Also include every subfolders too...
-        // ---- *.extension
-        // mergedRGFileData.append();
-        return mergedRGFileData;
-    }
 }

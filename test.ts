@@ -71,11 +71,11 @@ class TypeClass {
   }
 
 
-  public get getVariables(): ClassVariables[] {
+  public getVariables(): ClassVariables[] {
     return this.variables;
   }
 
-  public get getFunctions(): ClassFunction[] {
+  protected getFunctions(): ClassFunction[] {
     return this.functions;
   }
 

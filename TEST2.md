@@ -1,4 +1,15 @@
-### AdParam
+### Class Banner
+|Field|Return Type|Description|
+|---|---|---|
+|constructor()|`any`| |
+|on(eventName:  BannerAdEvents,  handler:  () => void)|`void`| |
+|create(options:  BannerAdOptions)|`Promise<Banner>`| |
+|loadAd(adParam:  AdParam)|`Promise<void>`| |
+|pause()|`Promise<void>`| |
+|resume()|`Promise<void>`| |
+|destroy()|`Promise<void>`| |
+
+### Interface AdParam
 |Field|Type|Description|
 |---|---|---|
 |gender?|`Gender`| |
@@ -10,7 +21,7 @@
 |appLang?|`string`| |
 |countryCode?|`string`| |
 
-### BannerAdOptions
+### Interface BannerAdOptions
 |Field|Type|Description|
 |---|---|---|
 |adId?|`string`| |
@@ -19,7 +30,7 @@
 |anchor?|`'top' or 'bottom'`| |
 |bannerRefresh?|`number//long`| |
 
-### SplashAdLogoOptions
+### Interface SplashAdLogoOptions
 |Field|Type|Description|
 |---|---|---|
 |hidden?|`boolean`| |
@@ -28,7 +39,7 @@
 |copyright?|`string`| |
 |bg?|`Colors`| |
 
-### SplashAdOptions
+### Interface SplashAdOptions
 |Field|Type|Description|
 |---|---|---|
 |preload?|`boolean`| |
@@ -40,20 +51,20 @@
 |audioFocusType?|`AudioFocusType`| |
 |logo?|`SplashAdLogoOptions`| |
 
-### SplashAdLoadOptions
+### Interface SplashAdLoadOptions
 |Field|Type|Description|
 |---|---|---|
 |orientation?|`ScreenOrientation`| |
 |adId?|`string`| |
 |ad?|`AdParam`| |
 
-### RewardVerifyConfig
+### Interface RewardVerifyConfig
 |Field|Type|Description|
 |---|---|---|
 |data?|`string`| |
 |userId?|`string`| |
 
-### RewardAdOptions
+### Interface RewardAdOptions
 |Field|Type|Description|
 |---|---|---|
 |adId?|`string`| |
@@ -62,32 +73,32 @@
 |immersive?|`boolean`| |
 |rewardVerifyConfig?|`RewardVerifyConfig`| |
 
-### InterstitialAdOptions
+### Interface InterstitialAdOptions
 |Field|Type|Description|
 |---|---|---|
 |adId?|`string`| |
 
-### NativeAdOptions
+### Interface NativeAdOptions
 |Field|Type|Description|
 |---|---|---|
 |div?|`string`| |
 |template?|`"small" or "full" or "banner" or "video"`| |
 |bg?|`Colors`| |
 
-### AdSize
+### Interface AdSize
 |Field|Type|Description|
 |---|---|---|
 |width?|`number`| |
 |height?|`number`| |
 
-### VideoConfiguration
+### Interface VideoConfiguration
 |Field|Type|Description|
 |---|---|---|
 |audioFocusType?|`AudioFocusType`| |
 |clickToFullScreenRequest?|`boolean`| |
 |startMuted?|`boolean`| |
 
-### NativeAdConfiguration
+### Interface NativeAdConfiguration
 |Field|Type|Description|
 |---|---|---|
 |adSize?|`AdSize`| |
@@ -99,14 +110,14 @@
 |requestMultiImages?|`boolean`| |
 |videoConfiguration?|`VideoConfiguration`| |
 
-### NativeAdLoadOptions
+### Interface NativeAdLoadOptions
 |Field|Type|Description|
 |---|---|---|
 |adId?|`string`| |
 |ad?|`AdParam`| |
 |nativeAdOptions?|`NativeAdConfiguration`| |
 
-### NativeAdProps
+### Interface NativeAdProps
 |Field|Type|Description|
 |---|---|---|
 |width?|`number`| |
@@ -118,29 +129,29 @@
 |x?|`number`| |
 |y?|`number`| |
 
-### InitOptions
+### Interface InitOptions
 |Field|Type|Description|
 |---|---|---|
 |appCode?|`string`| |
 |bannerFloat?|`boolean`| |
 
-### IsLoadingResult
+### Interface IsLoadingResult
 |Field|Type|Description|
 |---|---|---|
 |isLoading?|`boolean`| |
 
-### IsLoadedResult
+### Interface IsLoadedResult
 |Field|Type|Description|
 |---|---|---|
 |isLoaded?|`boolean`| |
 
-### OaidResult
+### Interface OaidResult
 |Field|Type|Description|
 |---|---|---|
 |id?|`string`| |
 |isLimitAdTracingEnabled?|`boolean`| |
 
-### ReferrerDetails
+### Interface ReferrerDetails
 |Field|Type|Description|
 |---|---|---|
 |responseCode?|`number`| |
@@ -148,12 +159,12 @@
 |referrerClickTimestamp?|`number`| |
 |installBeginTimestamp?|`number`| |
 
-### VerifyResult
+### Interface VerifyResult
 |Field|Type|Description|
 |---|---|---|
 |result?|`boolean`| |
 
-#### Enum BannerAdEvents
+### Enum BannerAdEvents
 |Field|Value|
 |---|---|
 |LOADED|'loaded'|
@@ -163,7 +174,7 @@
 |LEAVE|'leave'|
 |CLOSED|'closed'|
 
-#### Enum SplashAdEvents
+### Enum SplashAdEvents
 |Field|Value|
 |---|---|
 |LOADED|'loaded'|
@@ -172,7 +183,7 @@
 |SHOWED|'showed'|
 |CLICK|'click'|
 
-#### Enum RewardAdEvents
+### Enum RewardAdEvents
 |Field|Value|
 |---|---|
 |LOADED|'loaded'|
@@ -182,7 +193,7 @@
 |CLOSED|'closed'|
 |REWARDED|'rewarded'|
 
-#### Enum InterstitialAdEvents
+### Enum InterstitialAdEvents
 |Field|Value|
 |---|---|
 |LOADED|'loaded'|
@@ -192,7 +203,7 @@
 |CLICK|'click'|
 |METADATA_CHANGED|'metadaChanged'|
 
-#### Enum NativeAdEvents
+### Enum NativeAdEvents
 |Field|Value|
 |---|---|
 |NATIVE_AD_LOADED|'nativeAdLoaded'|
@@ -209,7 +220,7 @@
 |LEAVE|'leave'|
 |CLOSED|'closed'|
 
-#### Enum ErrorCodes
+### Enum ErrorCodes
 |Field|Value|
 |---|---|
 |INNER|0|
@@ -221,7 +232,7 @@
 |BANNER_AD_EXPIRE|6|
 |BANNER_AD_CANCEL|7|
 
-#### Enum InstallReferrerResponses
+### Enum InstallReferrerResponses
 |Field|Value|
 |---|---|
 |SERVICE_DISCONNECTED|-1|
@@ -230,7 +241,7 @@
 |OK|0|
 |FEATURE_NOT_SUPPORTED|2|
 
-#### Enum ScreenOrientation
+### Enum ScreenOrientation
 |Field|Value|
 |---|---|
 |SCREEN_ORIENTATION_LANDSCAPE|0|
@@ -250,48 +261,48 @@
 |SCREEN_ORIENTATION_FULL_USER|13|
 |SCREEN_ORIENTATION_LOCKED|14|
 
-#### Enum NonPersonalizedAd
+### Enum NonPersonalizedAd
 |Field|Value|
 |---|---|
 |ALLOW_ALL|0|
 |ALLOW_NON_PERSONALIZED|1|
 
-#### Enum ChildProtection
+### Enum ChildProtection
 |Field|Value|
 |---|---|
 |TAG_FOR_CHILD_PROTECTION_UNSPECIFIED|-1|
 |TAG_FOR_CHILD_PROTECTION_FALSE|0|
 |TAG_FOR_CHILD_PROTECTION_TRUE|1|
 
-#### Enum UnderAgeOfPromise
+### Enum UnderAgeOfPromise
 |Field|Value|
 |---|---|
 |PROMISE_UNSPECIFIED|-1|
 |PROMISE_FALSE|0|
 |PROMISE_TRUE|1|
 
-#### Enum ConsentDebug
+### Enum ConsentDebug
 |Field|Value|
 |---|---|
 |CONSENT_DEBUG_DISABLED|0|
 |CONSENT_DEBUG_NEED_CONSENT|1|
 |CONSENT_DEBUG_NOT_NEED_CONSENT|2|
 
-#### Enum Consent
+### Enum Consent
 |Field|Value|
 |---|---|
 |CONSENT_PERSONALIZED|0|
 |CONSENT_NON_PERSONALIZED|1|
 |CONSENT_UNKNOWN|2|
 
-#### Enum AudioFocusType
+### Enum AudioFocusType
 |Field|Value|
 |---|---|
 |GAIN_AUDIO_FOCUS_ALL|0|
 |NOT_GAIN_AUDIO_FOCUS_WHEN_MUTE|1|
 |NOT_GAIN_AUDIO_FOCUS_ALL|2|
 
-#### Enum AdContentClassification
+### Enum AdContentClassification
 |Field|Value|
 |---|---|
 |AD_CONTENT_CLASSIFICATION_A|"A"|
@@ -300,7 +311,7 @@
 |AD_CONTENT_CLASSIFICATION_J|"J"|
 |AD_CONTENT_CLASSIFICATION_W|"W"|
 
-#### Enum Colors
+### Enum Colors
 |Field|Value|
 |---|---|
 |RED|"RED"|
@@ -316,7 +327,7 @@
 |GREEN|"GREEN"|
 |TRANSPARENT|"TRANSPARENT"|
 
-#### Enum BannerAdSize
+### Enum BannerAdSize
 |Field|Value|
 |---|---|
 |BANNER_SIZE_360_57|"BANNER_SIZE_360_57"|
@@ -331,7 +342,7 @@
 |BANNER_SIZE_INVALID|"BANNER_SIZE_INVALID"|
 |BANNER_SIZE_SMART|"BANNER_SIZE_SMART"|
 
-#### Enum MediaAspect
+### Enum MediaAspect
 |Field|Value|
 |---|---|
 |ASPECT_ANY|1|
@@ -341,7 +352,7 @@
 |ASPECT_SQUARE|4|
 |ASPECT_UNKNOWN|0|
 
-#### Enum ChoicesPosition
+### Enum ChoicesPosition
 |Field|Value|
 |---|---|
 |BOTTOM_LEFT|3|
@@ -350,47 +361,21 @@
 |TOP_LEFT|0|
 |TOP_RIGHT|1|
 
-#### Enum MediaDirection
+### Enum MediaDirection
 |Field|Value|
 |---|---|
 |ANY|0|
 |LANDSCAPE|2|
 |PORTRAIT|1|
 
-#### Enum Gender
+### Enum Gender
 |Field|Value|
 |---|---|
 |FEMALE|2|
 |MALE|1|
 |UNKNOWN|0|
 
-### Banner
-|Field|Return Type|Description|
-|---|---|---|
-|constructor()|`any`| |
-|on(eventName:  BannerAdEvents,  handler:  () => void)|`void`| |
-|create(options:  BannerAdOptions)|`Promise<Banner>`| |
-|loadAd(adParam:  AdParam)|`Promise<void>`| |
-|pause()|`Promise<void>`| |
-|resume()|`Promise<void>`| |
-|destroy()|`Promise<void>`| |
-
-### Splash
-|Field|Return Type|Description|
-|---|---|---|
-|constructor()|`any`| |
-|on(eventName:  SplashAdEvents,  handler:  () => void)|`void`| |
-|create(options:  SplashAdOptions)|`Promise<Splash>`| |
-|load(options:  SplashAdLoadOptions)|`Promise<void>`| |
-|show()|`Promise<void>`| |
-|destroy()|`Promise<void>`| |
-|cancel()|`Promise<void>`| |
-|pause()|`Promise<void>`| |
-|resume()|`Promise<void>`| |
-|isLoaded()|`Promise<IsLoadedResult>`| |
-|isLoading()|`Promise<IsLoadingResult>`| |
-
-### Interstitial
+### Class Interstitial
 |Field|Return Type|Description|
 |---|---|---|
 |constructor()|`any`| |
@@ -402,25 +387,12 @@
 |isLoaded()|`Promise<IsLoadedResult>`| |
 |isLoading()|`Promise<IsLoadingResult>`| |
 
-### Reward
-|Field|Return Type|Description|
-|---|---|---|
-|constructor()|`any`| |
-|on(eventName:  RewardAdEvents,  handler:  () => void)|`void`| |
-|create(options:  RewardAdOptions)|`Promise<Reward>`| |
-|loadAd(adParam:  AdParam)|`Promise<void>`| |
-|show()|`Promise<void>`| |
-|pause()|`Promise<void>`| |
-|resume()|`Promise<void>`| |
-|destroy()|`Promise<void>`| |
-|isLoaded()|`Promise<IsLoadedResult>`| |
-
-### NativeAlreadyDefinedError
+### Class NativeAlreadyDefinedError
 |Field|Return Type|Description|
 |---|---|---|
 |NativeAlreadyDefinedError()|`any`| |
 
-### Native
+### Class Native
 |Field|Return Type|Description|
 |---|---|---|
 |constructor()|`any`| |
@@ -437,13 +409,41 @@
 |destroy()|`Promise<void>`| |
 |setProps(props?:  NativeAdProps)|`Promise<void>`| |
 
-### Window
+### Class Reward
+|Field|Return Type|Description|
+|---|---|---|
+|constructor()|`any`| |
+|on(eventName:  RewardAdEvents,  handler:  () => void)|`void`| |
+|create(options:  RewardAdOptions)|`Promise<Reward>`| |
+|loadAd(adParam:  AdParam)|`Promise<void>`| |
+|show()|`Promise<void>`| |
+|pause()|`Promise<void>`| |
+|resume()|`Promise<void>`| |
+|destroy()|`Promise<void>`| |
+|isLoaded()|`Promise<IsLoadedResult>`| |
+
+### Class Splash
+|Field|Return Type|Description|
+|---|---|---|
+|constructor()|`any`| |
+|on(eventName:  SplashAdEvents,  handler:  () => void)|`void`| |
+|create(options:  SplashAdOptions)|`Promise<Splash>`| |
+|load(options:  SplashAdLoadOptions)|`Promise<void>`| |
+|show()|`Promise<void>`| |
+|destroy()|`Promise<void>`| |
+|cancel()|`Promise<void>`| |
+|pause()|`Promise<void>`| |
+|resume()|`Promise<void>`| |
+|isLoaded()|`Promise<IsLoadedResult>`| |
+|isLoading()|`Promise<IsLoadingResult>`| |
+
+### Interface Window
 |Field|Type|Description|
 |---|---|---|
 |hmsEventHandlers|`{`| |
 |[key|`string]`| |
 
-### Ads
+### Class Ads
 |Field|Return Type|Description|
 |---|---|---|
 |constructor(objectName:  string = 'ads')|`any`| |
@@ -451,3 +451,26 @@
 |create(options:  any)|`Promise<Ads>`| |
 |call(funcName:  string,  opts:  any = {})|`any`| |
 
+### Public Method Summary
+|Parameters|Return Type|Description|
+|---|---|---|
+|init(options:InitOptions)|`Promise<void>`||
+|disconnectFromReferrerClient()|`Promise<void>`||
+|getOaidResult()|`Promise<OaidResult>`||
+|getReferrerDetails(isTest:boolean)|`Promise<ReferrerDetails>`||
+|verifyAdId(adId:string, isLimitAdTracking:boolean)|`Promise<VerifyResult>`||
+|setRequestOptions(options:AdParam)|`Promise<void>`||
+|getSDKVersion()|`Promise<void>`||
+|setVideoMuted(muted:boolean)|`Promise<void>`||
+|setVideoVolume(volume:number)|`Promise<void>`||
+|addTestDeviceId(id:string)|`Promise<void>`||
+|getTestDeviceId()|`Promise<void>`||
+|setUnderAgeOfPromise(b:boolean)|`Promise<void>`||
+|setConsentStatus(status:Consent)|`Promise<void>`||
+|setDebugNeedConsent(need:ConsentDebug)|`Promise<void>`||
+|requestConsentUpdate()|`Promise<void>`||
+|handleDisplacement(event:any)|`any`||
+|asyncExec(clazz:string, func:string, args:any[]=[])|`Promise<any>`||
+|initHMS()|`any`||
+|initEventHandler()|`any`||
+|initConstantSetter()|`any`||

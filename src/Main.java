@@ -16,18 +16,8 @@ public class Main {
 
         RGFileData rgFileData = null;
         try{
-            rgFileData = rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\interfaces.ts");
-            rgFileData.append(rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\banner.ts"));
-            rgFileData.append(rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\splash.ts"));
-            rgFileData.append(rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\interstitial.ts"));
-            rgFileData.append(rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\reward.ts"));
-            RGFileData n = rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\native.ts");
-            //rgFileData = rgFileReader.read("types.ts");
-            System.out.println("\n");
-            System.out.println(n.getComponentList().toString());
-            rgFileData.append(n);
-            rgFileData.append(rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts\\utils.ts"));
-            writer.generateREADME(rgFileData);
+            rgFileData = rgFileReader.readAll("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts", "ts");
+            writer.generateREADME(rgFileData, "TEST.md");
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -35,7 +25,6 @@ public class Main {
         for(RGComponent component : rgFileData.getComponentList()){
             System.out.println(component);
         }
-
 
 
     }
