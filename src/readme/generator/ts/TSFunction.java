@@ -41,7 +41,8 @@ public class TSFunction extends TSBaseComponent {
     }
 
     public void setReturnType(String returnType) {
-        this.returnType = returnType;
+        if(returnType.length() < 1) this.returnType = "any";
+        else this.returnType = returnType;
     }
 
     public List<TSVariable> getParameters() {

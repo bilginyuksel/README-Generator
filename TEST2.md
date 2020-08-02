@@ -367,7 +367,7 @@
 ### Banner
 |Field|Return Type|Description|
 |---|---|---|
-|constructor()|``| |
+|constructor()|`any`| |
 |on(eventName:  BannerAdEvents,  handler:  () => void)|`void`| |
 |create(options:  BannerAdOptions)|`Promise<Banner>`| |
 |loadAd(adParam:  AdParam)|`Promise<void>`| |
@@ -378,7 +378,7 @@
 ### Splash
 |Field|Return Type|Description|
 |---|---|---|
-|constructor()|``| |
+|constructor()|`any`| |
 |on(eventName:  SplashAdEvents,  handler:  () => void)|`void`| |
 |create(options:  SplashAdOptions)|`Promise<Splash>`| |
 |load(options:  SplashAdLoadOptions)|`Promise<void>`| |
@@ -393,7 +393,7 @@
 ### Interstitial
 |Field|Return Type|Description|
 |---|---|---|
-|constructor()|``| |
+|constructor()|`any`| |
 |on(eventName:  InterstitialAdEvents,  handler:  () => void)|`void`| |
 |create(options:  InterstitialAdOptions)|`Promise<Interstitial>`| |
 |loadAd(adParam:  AdParam)|`Promise<void>`| |
@@ -405,7 +405,7 @@
 ### Reward
 |Field|Return Type|Description|
 |---|---|---|
-|constructor()|``| |
+|constructor()|`any`| |
 |on(eventName:  RewardAdEvents,  handler:  () => void)|`void`| |
 |create(options:  RewardAdOptions)|`Promise<Reward>`| |
 |loadAd(adParam:  AdParam)|`Promise<void>`| |
@@ -414,4 +414,40 @@
 |resume()|`Promise<void>`| |
 |destroy()|`Promise<void>`| |
 |isLoaded()|`Promise<IsLoadedResult>`| |
+
+### NativeAlreadyDefinedError
+|Field|Return Type|Description|
+|---|---|---|
+|NativeAlreadyDefinedError()|`any`| |
+
+### Native
+|Field|Return Type|Description|
+|---|---|---|
+|constructor()|`any`| |
+|on(eventName:  NativeAdEvents,  handler:  () => void)|`void`| |
+|beforeCreateHook(options:  NativeAdOptions)|`void`| |
+|create(options:  NativeAdOptions)|`Promise<Native>`| |
+|refreshProps()|`NativeAdProps`| |
+|handleMutation()|`any`| |
+|scroll()|`Promise<void>`| |
+|loadAd(params:  NativeAdLoadOptions)|`Promise<void>`| |
+|isLoaded()|`Promise<IsLoadedResult>`| |
+|isLoading()|`Promise<IsLoadingResult>`| |
+|show()|`Promise<void>`| |
+|destroy()|`Promise<void>`| |
+|setProps(props?:  NativeAdProps)|`Promise<void>`| |
+
+### Window
+|Field|Type|Description|
+|---|---|---|
+|hmsEventHandlers|`{`| |
+|[key|`string]`| |
+
+### Ads
+|Field|Return Type|Description|
+|---|---|---|
+|constructor(objectName:  string = 'ads')|`any`| |
+|on(eventName:  any,  handler:  () => void)|`void`| |
+|create(options:  any)|`Promise<Ads>`| |
+|call(funcName:  string,  opts:  any = {})|`any`| |
 

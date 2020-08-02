@@ -35,8 +35,14 @@ public class TSReader implements RGFileReader {
         for (String param : parameters) {
             TSVariable var = new TSVariable();
             String[] varBuilder = param.split(":");
-            var.setName(varBuilder[0]);
-            var.setType(varBuilder[1]);
+            if(param.contains(":")){
+                var.setName(varBuilder[0]);
+                var.setType(varBuilder[1]);
+            } else{
+                var.setName(param);
+                var.setType("any");
+            }
+
             tsFunction.setParameter(var);
         }
 
@@ -93,8 +99,13 @@ public class TSReader implements RGFileReader {
             System.out.println(var);
             String splitted[] = var.split("=");
             tsVariable.setDefaultValue(splitted[1]);
-            tsVariable.setName(splitted[0].split(":")[0]);
-            tsVariable.setType(splitted[0].split(":")[1]);
+            if(splitted[0].contains(":")) {
+                tsVariable.setName(splitted[0].split(":")[0]);
+                tsVariable.setType(splitted[0].split(":")[1]);
+            }else{
+                tsVariable.setName(splitted[0]);
+                tsVariable.setType("any");
+            }
         } else{
             tsVariable.setDefaultValue(null);
             tsVariable.setName(var.split(":")[0]);
@@ -220,17 +231,36 @@ public class TSReader implements RGFileReader {
                         returnType += (char) c;
                 }
                 tsFunction.setReturnType(returnType);
-                while((c = reader.read()) != RGASCII.CURLY_CLOSING_BRACKET.getAscii()); // skip function body
+                boolean isBracketOpened = false;
+
+                /*
+                * To skip function body we have to skip all characters until closing bracket of function.
+                * The important thing here is while we are looking for closing brackets maybe in function body
+                * there could be a new bracket opened and that means, we can find the new closing bracket but
+                * we dont want it. To avoid this issue we are tracking if any brackets opened or not.
+                *  */
+                while(c != RGASCII.CURLY_CLOSING_BRACKET.getAscii()) { // skip function body
+                    c = reader.read();
+                    if(c == RGASCII.CURLY_OPENING_BRACKET.getAscii()) isBracketOpened = true;
+                    if(c == RGASCII.CURLY_CLOSING_BRACKET.getAscii()){
+                        if(isBracketOpened) {
+                            c = reader.read();
+                            isBracketOpened = false;
+                        }
+                    }
+                }
                 tsClass.addFunction(tsFunction);
             }else if(c == RGASCII.COLON.getAscii()){
                 // That means this is a variable
-                // Go until you find semicolon
+                // Go until you find semicolon or new line line feed
                 TSVariable tsVariable = new TSVariable();
                 tsVariable.setName(name);
                 String var = "";
-                while((c = reader.read()) != RGASCII.SEMI_COLON.getAscii()){
+                c = reader.read();
+                while(c != RGASCII.SEMI_COLON.getAscii() && c != RGASCII.LINE_FEED.getAscii()){
                     if(!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()))
                         var += (char) c;
+                    c = reader.read();
                 }
                 tsVariable.setAccessSpecifier(accessSpecifier==null?"default":accessSpecifier);
                 System.out.println("Var: "+ var);
