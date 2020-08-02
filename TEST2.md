@@ -1,14 +1,3 @@
-### Class Banner
-|Field|Return Type|Description|
-|---|---|---|
-|constructor()|`any`| |
-|on(eventName:  BannerAdEvents,  handler:  () => void)|`void`| |
-|create(options:  BannerAdOptions)|`Promise<Banner>`| |
-|loadAd(adParam:  AdParam)|`Promise<void>`| |
-|pause()|`Promise<void>`| |
-|resume()|`Promise<void>`| |
-|destroy()|`Promise<void>`| |
-
 ### Interface AdParam
 |Field|Type|Description|
 |---|---|---|
@@ -375,102 +364,85 @@
 |MALE|1|
 |UNKNOWN|0|
 
+### Class Banner
+|Field|Return Type|Description|
+|---|---|---|
+|@Cordova()|`on(eventNameBannerAdEvents,handler()=>void)void`| |
+|@Cordova({ otherPromise:  true })|`asynccreate(optionsBannerAdOptions)Promise<Banner>`| |
+|@Cordova({ otherPromise:  true })|`loadAd(adParamAdParam)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`pause()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`resume()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`destroy()Promise<void>`| |
+
 ### Class Interstitial
 |Field|Return Type|Description|
 |---|---|---|
-|constructor()|`any`| |
-|on(eventName:  InterstitialAdEvents,  handler:  () => void)|`void`| |
-|create(options:  InterstitialAdOptions)|`Promise<Interstitial>`| |
-|loadAd(adParam:  AdParam)|`Promise<void>`| |
-|show()|`Promise<void>`| |
-|destroy()|`Promise<void>`| |
-|isLoaded()|`Promise<IsLoadedResult>`| |
-|isLoading()|`Promise<IsLoadingResult>`| |
-
-### Class NativeAlreadyDefinedError
-|Field|Return Type|Description|
-|---|---|---|
-|NativeAlreadyDefinedError()|`any`| |
-
-### Class Native
-|Field|Return Type|Description|
-|---|---|---|
-|constructor()|`any`| |
-|on(eventName:  NativeAdEvents,  handler:  () => void)|`void`| |
-|beforeCreateHook(options:  NativeAdOptions)|`void`| |
-|create(options:  NativeAdOptions)|`Promise<Native>`| |
-|refreshProps()|`NativeAdProps`| |
-|handleMutation()|`any`| |
-|scroll()|`Promise<void>`| |
-|loadAd(params:  NativeAdLoadOptions)|`Promise<void>`| |
-|isLoaded()|`Promise<IsLoadedResult>`| |
-|isLoading()|`Promise<IsLoadingResult>`| |
-|show()|`Promise<void>`| |
-|destroy()|`Promise<void>`| |
-|setProps(props?:  NativeAdProps)|`Promise<void>`| |
+|@Cordova()|`on(eventNameInterstitialAdEvents,handler()=>void)void`| |
+|@Cordova({ otherPromise:  true })|`asynccreate(optionsInterstitialAdOptions)Promise<Interstitial>`| |
+|@Cordova({ otherPromise:  true })|`loadAd(adParamAdParam)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`show()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`destroy()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`isLoaded()Promise<IsLoadedResult>`| |
+|@Cordova({ otherPromise:  true })|`isLoading()Promise<IsLoadingResult>`| |
 
 ### Class Reward
 |Field|Return Type|Description|
 |---|---|---|
-|constructor()|`any`| |
-|on(eventName:  RewardAdEvents,  handler:  () => void)|`void`| |
-|create(options:  RewardAdOptions)|`Promise<Reward>`| |
-|loadAd(adParam:  AdParam)|`Promise<void>`| |
-|show()|`Promise<void>`| |
-|pause()|`Promise<void>`| |
-|resume()|`Promise<void>`| |
-|destroy()|`Promise<void>`| |
-|isLoaded()|`Promise<IsLoadedResult>`| |
+|@Cordova()|`on(eventNameRewardAdEvents,handler()=>void)void`| |
+|@Cordova({ otherPromise:  true })|`asynccreate(optionsRewardAdOptions)Promise<Reward>`| |
+|@Cordova({ otherPromise:  true })|`loadAd(adParamAdParam)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`show()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`pause()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`resume()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`destroy()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`isLoaded()Promise<IsLoadedResult>`| |
 
 ### Class Splash
 |Field|Return Type|Description|
 |---|---|---|
-|constructor()|`any`| |
-|on(eventName:  SplashAdEvents,  handler:  () => void)|`void`| |
-|create(options:  SplashAdOptions)|`Promise<Splash>`| |
-|load(options:  SplashAdLoadOptions)|`Promise<void>`| |
-|show()|`Promise<void>`| |
-|destroy()|`Promise<void>`| |
-|cancel()|`Promise<void>`| |
-|pause()|`Promise<void>`| |
-|resume()|`Promise<void>`| |
-|isLoaded()|`Promise<IsLoadedResult>`| |
-|isLoading()|`Promise<IsLoadingResult>`| |
+|@Cordova()|`on(eventNameSplashAdEvents,handler()=>void)void`| |
+|@Cordova({ otherPromise:  true })|`asynccreate(optionsSplashAdOptions)Promise<Splash>`| |
+|@Cordova({ otherPromise:  true })|`load(optionsSplashAdLoadOptions)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`show()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`destroy()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`cancel()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`pause()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`resume()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`isLoaded()Promise<IsLoadedResult>`| |
+|@Cordova({ otherPromise:  true })|`isLoading()Promise<IsLoadingResult>`| |
 
-### Interface Window
-|Field|Type|Description|
-|---|---|---|
-|hmsEventHandlers|`{`| |
-|[key|`string]`| |
-
-### Class Ads
+### Class Native
 |Field|Return Type|Description|
 |---|---|---|
-|constructor(objectName:  string = 'ads')|`any`| |
-|on(eventName:  any,  handler:  () => void)|`void`| |
-|create(options:  any)|`Promise<Ads>`| |
-|call(funcName:  string,  opts:  any = {})|`any`| |
+|@Cordova()|`on(eventNameNativeAdEvents,handler()=>void)void`| |
+|@Cordova({ otherPromise:  true})|`scroll()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`asynccreate(optionsNativeAdOptions)Promise<Native>`| |
+|@Cordova({ otherPromise:  true })|`loadAd(paramsNativeAdLoadOptions)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`isLoaded()Promise<IsLoadedResult>`| |
+|@Cordova({ otherPromise:  true })|`isLoading()Promise<IsLoadingResult>`| |
+|@Cordova({ otherPromise:  true })|`show()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`destroy()Promise<void>`| |
+
+### Class HmsAds
+|Field|Return Type|Description|
+|---|---|---|
+|@CordovaProperty()|`Interstitial=Interstitial;@CordovaProperty()Banner=Banner;@CordovaProperty()Splash=Splash;@CordovaProperty()Reward=Reward;@CordovaProperty()Native=Native;publicColors=ColorspublicAdContentClassification=AdContentClassificationpublicAudioFocusType=AudioFocusTypepublicConsent=ConsentpublicConsentDebug=ConsentDebugpublicUnderAgeOfPromise=UnderAgeOfPromisepublicChildProtection=ChildProtectionpublicNonPersonalizedAd=NonPersonalizedAdpublicOrientation=ScreenOrientationpublicErrorCodes=ErrorCodespublicGender=GenderpublicNativeAdEvents=NativeAdEventspublicMediaAspect=MediaAspectpublicChoicesPosition=ChoicesPositionpublicMediaDirection=MediaDirectionpublicSplashAdEvents=SplashAdEventspublicRewardAdEvents=RewardAdEventspublicInterstitialAdEvents=InterstitialAdEventspublicBannerAdEvents=BannerAdEventspublicBannerAdSize=BannerAdSize@Cordova(`| |
+|init(options:  InitOptions)|`Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`disconnectFromReferrerClient()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`getOaidResult()Promise<OaidResult>`| |
+|@Cordova({ otherPromise:  true })|`getReferrerDetails(isTestboolean)Promise<ReferrerDetails>`| |
+|@Cordova({ otherPromise:  true })|`verifyAdId(adIdstring,isLimitAdTrackingboolean)Promise<VerifyResult>`| |
+|@Cordova({ otherPromise:  true })|`setRequestOptions(optionsAdParam)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`getSDKVersion()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`setVideoMuted(mutedboolean)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`setVideoVolume(volumenumber)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`addTestDeviceId(idstring)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`getTestDeviceId()Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`setUnderAgeOfPromise(bboolean)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`setConsentStatus(statusnumber)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`setDebugNeedConsent(neednumber)Promise<void>`| |
+|@Cordova({ otherPromise:  true })|`requestConsentUpdate()Promise<void>`| |
 
 ### Public Method Summary
 |Parameters|Return Type|Description|
 |---|---|---|
-|init(options:InitOptions)|`Promise<void>`||
-|disconnectFromReferrerClient()|`Promise<void>`||
-|getOaidResult()|`Promise<OaidResult>`||
-|getReferrerDetails(isTest:boolean)|`Promise<ReferrerDetails>`||
-|verifyAdId(adId:string, isLimitAdTracking:boolean)|`Promise<VerifyResult>`||
-|setRequestOptions(options:AdParam)|`Promise<void>`||
-|getSDKVersion()|`Promise<void>`||
-|setVideoMuted(muted:boolean)|`Promise<void>`||
-|setVideoVolume(volume:number)|`Promise<void>`||
-|addTestDeviceId(id:string)|`Promise<void>`||
-|getTestDeviceId()|`Promise<void>`||
-|setUnderAgeOfPromise(b:boolean)|`Promise<void>`||
-|setConsentStatus(status:Consent)|`Promise<void>`||
-|setDebugNeedConsent(need:ConsentDebug)|`Promise<void>`||
-|requestConsentUpdate()|`Promise<void>`||
-|handleDisplacement(event:any)|`any`||
-|asyncExec(clazz:string, func:string, args:any[]=[])|`Promise<any>`||
-|initHMS()|`any`||
-|initEventHandler()|`any`||
-|initConstantSetter()|`any`||

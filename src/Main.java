@@ -15,9 +15,12 @@ public class Main {
         RGFileWriter writer = new TSWriter();
 
         RGFileData rgFileData = null;
+        // RGFileData data = null;
         try{
             rgFileData = rgFileReader.readAll("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\scripts", "ts");
             writer.generateREADME(rgFileData, "TEST.md");
+            // data = rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\ionic\\wrapper\\index.ts");
+            // writer.generateREADME(data, "TEST2.md");
         }catch (IOException e){
             e.printStackTrace();
         }

@@ -1,17 +1,164 @@
 ## Automatic Readme.md file generator
-This project's aim is to automatize documentation process. Basically I tried to generate README.md file from source code of the project. 
-<br>
-__In readme.generator package RG* classes exists you can easily support new programming languages by extending those classes.__
-<br>
+This project's aim is to automatize documentation process. I started this project to spend less time when documenting my own code. Basically I tried to generate README.md file from source code of the project. For now it has a basic output format which I have created. But in the future maybe I will add new templates. 
 
-|Fields|Type|Description| Hello|
-|---|---|---| ---|
-|uniqueId|String|Unique id|test|
-**** 
-#### Variable TS Issue List
+__Only supports TypeScript for now.__
+
+***
+
+### Some of the templates
+Some of the templates I use for TypeScript types listed below.
+
+#### Enum < enum-name >
+|Fields|Value|
+|---|---|
+|SAMPLE|-1|
+|SAMPLE2|1|
+
+#### Interface < interface-name >
+|Fields|Type|Description|
+|---|---|---|
+|param|`number`|empty|
+|param1|`string`|empty|
+
+#### Class < class-name >
+|Method|Return Type|Description
+|---|---|---|
+|method()|void|empty|
+|method1(param: number, param1: string)|`Promise<string>`|empty|
+
+#### Public Method Summary
+I merged all methods here as a public method summary because I am using it like that on my work. But you can simply change it on the writer classes.
+|Method|Return Type|Description|
+|---|---|---|
+|method()|`void`|empty|
+|method1(param: () => void)|`any`|empty|
+
+***
+
+#### In readme.generator package RG* classes exists you can easily support new programming languages by extending those classes.
+
+When you want to support a programming language that is not yet supported, you can check the design of the ts package.
+
+1. Declaring component types 
+```java
+class TSFunction extends RGComponent{
+
+  private String functionName;
+  private List<TSVariable> parameterList;
+  // .....
+  // .....
+
+  @Override
+  public Map toMap(){
+    // Fill this function to generate tables on README.md easily.
+    return null;
+  }
+}
+```
+
+2. Declaring keywords is an easy way to parse code syntax.
+```java
+enum TSKeywords{
+  FUNCTION("function"),
+  CLASS("class");
+  
+  private String keyword;
+
+  private final static Set<String> accessSpecifiers =
+     new HashSet<>(Arrays.asList("protected", "private", "public", "default"));
+  // ......
+  // .....
+
+  TSKeywords(String keyword){
+    this.keyword = keyword;
+  }
+
+  public static Set<String> getAccessSpecifiers() {
+        return Collections.unmodifiableSet(accessSpecifiers);
+    }
+}
+```
+
+3. Writing Reader class is important, because here you should convert code to components you have created. 
+```java
+class TSReader extends RGFileReader{
+
+  private RGComponent readTsFunctionTemplate(BufferedReader reader, Boolean export){
+    return null;
+  }
+
+  // .......
+  // .......
+
+  @Override
+  public RGFileData read(String filename) throws IOException{
+    RGFileData rgFileData = new RGFileData();
+    File file = new File(filename);
+    FileReader fileReader = new FileReader(file);
+    BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+    int c = 0;
+    String keyw = "";
+    // ...
+    while((c = bufferedReader.read()) != -1){
+
+        // ....
+        // .....
+
+        if(keyw.equals(TSKeywords.FUNCTION.getKeyword()))
+            rgFileData.addComponent(readTsFunctionTemplate(bufferedReader, export));
+        else if(keyw.equals(TSKeywords.ENUM.getKeyword()))
+            rgFileData.addComponent(readTsEnumTemplate(bufferedReader, export));
+        // ....
+        // .....
+
+        keyw = "";
+        export = false;
+      }else keyw += (char) c;
+
+    }
+
+    return rgFileData;
+  }
+}
+```
+
+4. Final Part of the implementation is extending FileWriter class an creating new generators if you wish to change output features.
+```java
+public class TSWriter implements RGFileWriter {
+ 
+ private RGComponentGenerator generator;
+  
+  @Override
+  public File generateREADME(RGFileData fileData, String outputFileName) throws IOException {
+    
+    // .....
+    // .....
+
+    StringBuilder data = new StringBuilder();
+
+    for(int i=0;i<fileData.getComponentList().size(); ++i){
+      if(!(fileData.getComponentList().get(i) instanceof TSFunction || fileData.getComponentList().get(i) instanceof TSVariable)){
+        data.append(generator.makeTable(fileData.getComponentList().get(i)));
+        }
+    }
+
+    // ....
+    Files.write(new File(outputFileName).toPath(), data.toString().getBytes());
+
+    return file;
+  }
+}
+
+```
+
+#### TS Issue list
 * If variable is equal to a string of characters it reads without spaces.
-* When reading a variable which its type is a function like `() => void` it can't figure out the variable type.
 
 _To fix both of them I should'nt use split function to split properties. To fix it I should read it char by char instead of splitting the whole string._
 
-* Sometimes for class values adding extra spaces.
+#### Unsupported features
+* If the documented code has annotations the output will be wrong.
+
+### TESTED 
+- [ X ] [TEST.md](TEST.md) file is autogenerated from source code please check it. 
