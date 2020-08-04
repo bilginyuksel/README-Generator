@@ -17,9 +17,9 @@ public class Main {
         RGFileData rgFileData = null;
         // RGFileData data = null;
         try{
-            rgFileData = rgFileReader.readAll("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore_HMSCore-Plugin-Cordova_Map-Library\\scripts", "ts");
+            rgFileData = rgFileReader.readAll("<absolute-folder-path>", "ts");
+            // rgFileData = rgFileReader.read("<absolute-file-path>");
             writer.generateREADME(rgFileData, "MAPS.md");
-            // data = rgFileReader.read("C:\\Users\\k84167261\\Desktop\\HUAWEI\\GITLAB-REPOSITORIES\\HP_HMSCore-Plugin-Cordova_Ads-Library\\ionic\\wrapper\\index.ts");
             // writer.generateREADME(data, "TEST2.md");
         }catch (IOException e){
             e.printStackTrace();
