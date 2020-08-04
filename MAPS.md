@@ -152,7 +152,7 @@
 |Field|Type|Description|
 |---|---|---|
 |method?|`string`| |
-|[other|`string]`| |
+|[other:string]|`any//...Otherstuffdependsonthemethod`| |
 
 ### Interface InitialProps
 |Field|Type|Description|
@@ -165,16 +165,16 @@
 |paddingTop|`number`| |
 |borderLeft|`number`| |
 |borderTop|`number`| |
-|[other|`string]`| |
+|[other:string]|`any`| |
 
 ### Interface BaseMapObject<T>
 |Field|Type|Description|
 |---|---|---|
-|set(propName|`stringpropValue`| |
-|set(keyVals|`any)`| |
+|set(propName:stringpropValue:any)|`Promise<any>`| |
+|set(keyVals:any)|`Promise<any>`| |
 |update()|`Promise<T>`| |
 |remove()|`Promise<any>`| |
-|[other|`string]`| |
+|[other:string]|`any`| |
 
 ### Interface PolylineextendsBaseMapObject<Polyline>
 |Field|Type|Description|
@@ -277,7 +277,7 @@
 |Field|Type|Description|
 |---|---|---|
 |hmsEventHandlers|`{`| |
-|[key|`string]`| |
+|[key:string]|`Handler[]`| |
 
 ### Public Method Summary
 |Parameters|Return Type|Description|

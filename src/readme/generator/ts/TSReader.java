@@ -133,6 +133,7 @@ public class TSReader extends RGFileReader {
         }//System.out.println();
 
         String [] elements = interfaceVar.split("\r\n"); // SEMI_COLON
+        System.out.println(interfaceVar);
         for(String elem : elements){
             if(elem.length()==0) continue;
             TSInterface.InterfaceElement element = new TSInterface.InterfaceElement();
@@ -140,12 +141,24 @@ public class TSReader extends RGFileReader {
             if(elem.contains("=")) {
                 String splitted[] = elem.split("=");
                 element.setElementDefaultValue(splitted[1]);
-                element.setElementName(splitted[0].split(":")[0]);
-                element.setElementType(splitted[0].split(":")[1]);
+                element.setElementName(splitted[0].split(":", 1)[0]);
+                element.setElementType(splitted[0].split(":", 1)[1]);
             } else{
                 element.setElementDefaultValue(null);
-                element.setElementName(elem.split(":")[0]);
-                String type = elem.split(":")[1];
+                /*
+                * Here I find the last colon to detect the actual name and type.
+                * Because you can declare variables and functions in interface. If you declare
+                * functions you can't right it's body.
+                * I didn't want to detect functions and variables here like the way I did with the class type.
+                * So functions can have parameters according to that information I tracked the last colon and I splitted
+                * from the last colon index I found.
+                * Basically I didn't store functions and variables inside interface.
+                *  */
+                int lastColonIndex = 0;
+                for(int i=0;i<elem.length();++i) if((int)elem.charAt(i) == RGASCII.COLON.getAscii()) lastColonIndex = i;
+                String name = ""; for(int i=0;i<lastColonIndex; ++i) name+=elem.charAt(i);
+                String type = ""; for(int i=lastColonIndex+1; i<elem.length();++i) type+=elem.charAt(i);
+                element.setElementName(name);
                 type = type.replace(";", "");
                 element.setElementType(type);
             }
@@ -157,7 +170,7 @@ public class TSReader extends RGFileReader {
     }
 
     private RGComponent readSingleLineComment(BufferedReader reader) throws IOException{
-        System.out.println("Single line comment reading...");
+        // System.out.println("Single line comment reading...");
         /*
         * Store comment information if you want it. Store it to match next function or variable anything.*/
         int c = 0;
@@ -166,7 +179,7 @@ public class TSReader extends RGFileReader {
     }
 
     private RGComponent readMultipleLineComment(BufferedReader reader) throws IOException{
-        System.out.println("Multiple line comment reading..");
+        // System.out.println("Multiple line comment reading..");
         /*
         * Store docstring information to find the descriptions of methods, variables, classes etc.*/
         int c = 0;
@@ -180,7 +193,7 @@ public class TSReader extends RGFileReader {
             first = second;
             second = c;
         }
-        System.out.println(data);
+        // System.out.println(data);
         return null;
     }
 
