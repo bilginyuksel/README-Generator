@@ -145,7 +145,9 @@ public class TSReader extends RGFileReader {
             } else{
                 element.setElementDefaultValue(null);
                 element.setElementName(elem.split(":")[0]);
-                element.setElementType(elem.split(":")[1]);
+                String type = elem.split(":")[1];
+                type = type.replace(";", "");
+                element.setElementType(type);
             }
 
             tsInterface.addElement(element);
@@ -153,6 +155,35 @@ public class TSReader extends RGFileReader {
 
         return tsInterface;
     }
+
+    private RGComponent readSingleLineComment(BufferedReader reader) throws IOException{
+        System.out.println("Single line comment reading...");
+        /*
+        * Store comment information if you want it. Store it to match next function or variable anything.*/
+        int c = 0;
+        while((c = reader.read()) != RGASCII.NEW_LINE.getAscii());
+        return null;
+    }
+
+    private RGComponent readMultipleLineComment(BufferedReader reader) throws IOException{
+        System.out.println("Multiple line comment reading..");
+        /*
+        * Store docstring information to find the descriptions of methods, variables, classes etc.*/
+        int c = 0;
+        int first = reader.read();
+        int second = reader.read();
+        String data="";
+        while((c =  reader.read()) != -1){
+            data += (char) c;
+            //System.out.println("f: "+first + ", s:" + second);
+            if(first==42 && second==47) break;
+            first = second;
+            second = c;
+        }
+        System.out.println(data);
+        return null;
+    }
+
     private RGComponent readTsClassTemplate(BufferedReader reader, Boolean export) throws IOException{
         TSClass tsClass = new TSClass();
         tsClass.setExport(export);
@@ -180,7 +211,18 @@ public class TSReader extends RGFileReader {
         // I need to find what are variables and functions.
         String name = "";
         String accessSpecifier = null;
+        int first = reader.read();
+        int second = reader.read();
+        name+=(char) first + (char) second;
         while((c = reader.read()) != RGASCII.CURLY_CLOSING_BRACKET.getAscii()){
+
+            if(first==RGASCII.SLASH.getAscii() && second==RGASCII.ASTERIX.getAscii())
+                readMultipleLineComment(reader);
+            else if(first==RGASCII.SLASH.getAscii() && second==RGASCII.SLASH.getAscii())
+                readSingleLineComment(reader);
+
+            first = second;
+            second = c;
 
             if(c == RGASCII.SPACE.getAscii() && name.length() > 0){
                 // this was probably an access specifier.
@@ -214,9 +256,14 @@ public class TSReader extends RGFileReader {
                 if(parameters.length() < 1) paramList = new String[0];
                 for(String param : paramList){
                     TSVariable var = new TSVariable();
-                    String[] varBuilder = param.split(":");
-                    var.setName(varBuilder[0]);
-                    var.setType(varBuilder[1]);
+                    if(param.contains(":")) {
+                        String[] varBuilder = param.split(":");
+                        var.setName(varBuilder[0]);
+                        var.setType(varBuilder[1]);
+                    }else{
+                        var.setName(param);
+                        var.setType("any");
+                    }
                     tsFunction.setParameter(var);
                 }
 
@@ -227,7 +274,7 @@ public class TSReader extends RGFileReader {
                         returnType += (char) c;
                 }
                 tsFunction.setReturnType(returnType);
-                boolean isBracketOpened = false;
+                int openedBracket = 0;
 
                 /*
                 * To skip function body we have to skip all characters until closing bracket of function.
@@ -237,11 +284,11 @@ public class TSReader extends RGFileReader {
                 *  */
                 while(c != RGASCII.CURLY_CLOSING_BRACKET.getAscii()) { // skip function body
                     c = reader.read();
-                    if(c == RGASCII.CURLY_OPENING_BRACKET.getAscii()) isBracketOpened = true;
+                    if(c == RGASCII.CURLY_OPENING_BRACKET.getAscii()) openedBracket++;
                     if(c == RGASCII.CURLY_CLOSING_BRACKET.getAscii()){
-                        if(isBracketOpened) {
+                        if(openedBracket>0) {
                             c = reader.read();
-                            isBracketOpened = false;
+                            openedBracket--;
                         }
                     }
                 }
@@ -289,8 +336,18 @@ public class TSReader extends RGFileReader {
         int c = 0;
         String keyw = "";
         Boolean export = false;
+        int first = bufferedReader.read();
+        int second = bufferedReader.read();
+        keyw += (char) first + (char) second;
         while((c = bufferedReader.read()) != -1){
             // Until end of the file
+            if(first==RGASCII.SLASH.getAscii() && second==RGASCII.ASTERIX.getAscii())
+                readMultipleLineComment(bufferedReader);
+            else if(first==RGASCII.SLASH.getAscii() && second==RGASCII.SLASH.getAscii())
+                readSingleLineComment(bufferedReader);
+
+            first = second;
+            second = c;
 
             if(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii()){
                 if (keyw.length() < 1) continue;
@@ -311,8 +368,8 @@ public class TSReader extends RGFileReader {
                     rgFileData.addComponent(readTsClassTemplate(bufferedReader, export));
                 else if(TSKeywords.getVariableTypes().contains(keyw))
                     rgFileData.addComponent(readTsVariableTemplate(bufferedReader, export));
-                // Try to simplify abstract class situation
 
+                // Try to simplify abstract class situation
                 keyw = "";
                 export = false;
             }else keyw += (char) c;

@@ -24,7 +24,7 @@ public class RGGenerator1 implements RGComponentGenerator{
                     .append("|---|---|---|\n").toString();
             List<Pair<String, String>> items = map.get("Field-Type");
             for(Pair<String, String> pair : items)
-                table += "|"+ pair.getKey() + "|`" + pair.getValue() + "`| |\n";
+                table += "|"+ pair.getKey().replace("|", "or") + "|`" + pair.getValue().replace("|", "or") + "`| |\n";
 
             return table + "\n";
         }else if(component instanceof TSEnum){
@@ -37,7 +37,7 @@ public class RGGenerator1 implements RGComponentGenerator{
                     .append("|---|---|\n").toString();
             List<Pair<String, String>> items = map.get("Field-Value");
             for(Pair<String, String> pair : items)
-                table += "|"+ pair.getKey() + "|" + pair.getValue() + "|\n";
+                table += "|"+ pair.getKey().replace("|", "or") + "|" + pair.getValue().replace("|", "or") + "|\n";
 
             return table + "\n";
         }else if(component instanceof TSClass){
@@ -50,7 +50,7 @@ public class RGGenerator1 implements RGComponentGenerator{
                     .append("|---|---|---|").append("\n");
             List<Pair<String, String>> items = map.get("Field-Type");
             for(Pair<String, String> pair : items)
-                table.append("|").append(pair.getKey()).append("|`").append(pair.getValue()).
+                table.append("|").append(pair.getKey().replace("|", "or")).append("|`").append(pair.getValue().replace("|", "or")).
                         append("`| |\n");
 
             return table.toString() + "\n";
