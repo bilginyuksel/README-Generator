@@ -18,7 +18,7 @@ public class RGGenerator1 implements RGComponentGenerator{
             Map<String, List<Pair<String, String>>> map = component.toMap();
             String tableHeading = String.valueOf(map.get("Title"));
             String table = new StringBuilder()
-                    .append("### Interface ")
+                    .append("### ")
                     .append(tableHeading).append("\n")
                     .append("|Field|Type|Description|\n")
                     .append("|---|---|---|\n").toString();
@@ -33,26 +33,27 @@ public class RGGenerator1 implements RGComponentGenerator{
             String table = new StringBuilder()
                     .append("### Enum ")
                     .append(tableHeading).append("\n")
-                    .append("|Field|Value|\n")
-                    .append("|---|---|\n").toString();
+                    .append("|Field|Value|Description|\n")
+                    .append("|---|---|---|\n").toString();
             List<Pair<String, String>> items = map.get("Field-Value");
             for(Pair<String, String> pair : items)
-                table += "|"+ pair.getKey().replace("|", "or") + "|" + pair.getValue().replace("|", "or") + "|\n";
+                table += "|"+ pair.getKey().replace("|", "or") + "|" + pair.getValue().replace("|", "or") + "| |\n";
 
             return table + "\n";
         }else if(component instanceof TSClass){
             Map<String, List<Pair<String, String>>> map = component.toMap();
             String tableHeading = String.valueOf(map.get("Title"));
             StringBuilder table = new StringBuilder()
-                    .append("### Class ")
+                    .append("### ")
                     .append(tableHeading).append("\n")
+                    .append("#### Public Method Summary").append("\n")
                     .append("|Field|Return Type|Description|").append("\n")
                     .append("|---|---|---|").append("\n");
             List<Pair<String, String>> items = map.get("Field-Type");
-            for(Pair<String, String> pair : items)
+            for(Pair<String, String> pair : items) {
                 table.append("|").append(pair.getKey().replace("|", "or")).append("|`").append(pair.getValue().replace("|", "or")).
                         append("`| |\n");
-
+            }
             return table.toString() + "\n";
         }
         return "";

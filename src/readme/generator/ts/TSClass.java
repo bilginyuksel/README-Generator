@@ -57,6 +57,7 @@ public class TSClass extends TSBaseComponent{
         map.put("Title", this.className);
         List<Pair<String, String>> fieldType = new ArrayList<>();
         for(TSFunction tsFunction : functions){
+            if(tsFunction.getAccessSpecifier().equals("private") || tsFunction.getAccessSpecifier().equals("protected")) continue;
             StringBuilder builder = new StringBuilder();
             builder.append(tsFunction.getfName()).append("(");
             for(int i=0;i<tsFunction.getParameters().size(); ++i){
