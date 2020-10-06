@@ -6,8 +6,7 @@ import readme.generator.RGFileData;
 import readme.generator.RGFileWriter;
 import readme.generator.RGGenerator1;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,8 @@ public class TSWriter implements RGFileWriter {
                 new String[]{"Parameters", "Return Type", "Description"});
 
         StringBuilder data = new StringBuilder();
+        data.append(readRawStartingInstructionsFile("startWriting.txt"));
+
         for(int i=0;i<fileData.getComponentList().size(); ++i){
             if(!(fileData.getComponentList().get(i) instanceof TSFunction || fileData.getComponentList().get(i) instanceof TSVariable)){
                 data.append(generator.makeTable(fileData.getComponentList().get(i)));
@@ -38,11 +39,51 @@ public class TSWriter implements RGFileWriter {
         }
 
         data.append(table);
+        data.append(readRawEndingInstructionFile("endWriting.txt"));
 
         File file = new File(outputFileName);
         file.createNewFile();
         Files.write(file.toPath(), data.toString().getBytes());
 
         return file;
+    }
+
+    private String readRawEndingInstructionFile(String filename){
+        FileReader fileReader = null;
+        StringBuilder finalOutput = new StringBuilder();
+        finalOutput.append("\n\n---\n\n");
+        try {
+            File f = new File(filename);
+            fileReader = new FileReader(f);
+
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            int c = 0;
+            while ((c = bufferedReader.read()) != -1) {
+                finalOutput.append((char)c);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return finalOutput.toString();
+    }
+
+    private String readRawStartingInstructionsFile(String filename){
+        FileReader fileReader = null;
+        StringBuilder finalOutput = new StringBuilder();
+        try {
+            File f = new File(filename);
+            fileReader = new FileReader(f);
+
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            int c = 0;
+            while ((c = bufferedReader.read()) != -1) {
+                finalOutput.append((char)c);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return finalOutput.append("\n\n---\n\n## 3. API Reference\n").toString();
     }
 }

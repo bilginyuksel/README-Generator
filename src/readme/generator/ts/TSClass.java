@@ -51,6 +51,14 @@ public class TSClass extends TSBaseComponent{
                 '}';
     }
 
+    public List<Map<String, String>> getFunctions() {
+        List<Map<String, String>> funcMap = new ArrayList<>();
+        for(TSFunction f : functions)
+            funcMap.add(f.toMap());
+
+        return funcMap;
+    }
+
     @Override
     public Map toMap() {
         Map<String, Object> map = new HashMap<>();

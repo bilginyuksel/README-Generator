@@ -140,9 +140,15 @@ public class TSReader extends RGFileReader {
             elem = elem.replace("|", " or ");
             if(elem.contains("=")) {
                 String splitted[] = elem.split("=");
-                element.setElementDefaultValue(splitted[1]);
-                element.setElementName(splitted[0].split(":", 1)[0]);
-                element.setElementType(splitted[0].split(":", 1)[1]);
+                // TODO: IMPORTANT
+                // THIS TRY CATCH IS USED TO MAKE CODE RUN THIS IS NOT A GOOD WAY TO DO IT
+                try {
+                    element.setElementDefaultValue(splitted[1]);
+                    element.setElementName(splitted[0].split(":", 1)[0]);
+                    element.setElementType(splitted[0].split(":", 1)[1]);
+                }catch (ArrayIndexOutOfBoundsException e){
+                    e.printStackTrace();
+                }
             } else{
                 element.setElementDefaultValue(null);
                 /*

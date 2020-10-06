@@ -90,6 +90,7 @@ public class TSFunction extends TSBaseComponent {
                     append(parameters.get(i).getType());
             if(i+1 != parameters.size()) parameterBuilder.append(", ");
         }parameterBuilder.append(")");
+        map.put("Name", fName);
         map.put("Parameters", parameterBuilder.toString());
         map.put("Return Type", this.getReturnType());
         map.put("Description","");
