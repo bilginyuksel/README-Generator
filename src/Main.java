@@ -17,7 +17,7 @@ public class Main {
         RGFileData rgFileData = null;
         // RGFileData data = null;
         try{
-            rgFileData = rgFileReader.readAll("C:\\Users\\k84167261\\Desktop\\HUAWEI\\Future_Map\\cordova_map_plugin\\scripts", "ts");
+            rgFileData = rgFileReader.readAll("scripts", "ts");
             // rgFileData = rgFileReader.read("<absolute-file-path>");
             writer.generateREADME(rgFileData, "MAPS_NEW.md");
             // writer.generateREADME(data, "TEST2.md");

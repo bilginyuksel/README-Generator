@@ -84,7 +84,7 @@ public class TSFunction extends TSBaseComponent {
     public Map toMap() {
         Map<String, String> map = new HashMap<>();
         StringBuilder parameterBuilder = new StringBuilder();
-        parameterBuilder.append(this.getfName()).append("(");
+        parameterBuilder.append("(");
         for(int i=0; i<parameters.size(); ++i){
             parameterBuilder.append(parameters.get(i).getName()).append(":").
                     append(parameters.get(i).getType());
