@@ -27,7 +27,7 @@ public class TSWriter implements RGFileWriter {
                 mergedComponents.add(fileData.getComponentList().get(i).toMap());
 
         String table = generator.mergedTable(mergedComponents, "Public Method Summary",
-                new String[]{"Parameters", "Return Type", "Description"});
+                "Method", "Return Type", "Description");
 
         StringBuilder data = new StringBuilder();
         data.append(readRawStartingInstructionsFile("startWriting.txt"));
