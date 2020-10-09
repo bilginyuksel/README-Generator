@@ -65,7 +65,7 @@ public class RGGenerator1 implements RGComponentGenerator {
                         append("`| |\n");
             }
             table.append(createDetailedViewOfClassFunctions(((TSClass) component).getFunctions()));
-            return table.toString() + "\n";
+            return table.toString() + "\n\n";
         }
         return "";
     }
@@ -100,7 +100,7 @@ public class RGGenerator1 implements RGComponentGenerator {
             builder.append("###### Return Type\n");
             builder.append("|Type|Description|\n");
             builder.append("|---|---|\n");
-            builder.append(String.format("|%s|-|\n", fReturnType));
+            builder.append(String.format("|`%s`|-|\n", fReturnType));
 
             builder.append("###### Call Example\n");
             builder.append("```ts\nExample code block\n```\n\n");
