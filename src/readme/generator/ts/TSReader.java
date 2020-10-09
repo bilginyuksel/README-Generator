@@ -232,7 +232,7 @@ public class TSReader extends RGFileReader {
         String accessSpecifier = null;
         int first = reader.read();
         int second = reader.read();
-        name+=(char) first + (char) second;
+        //name+=(char) first + (char) second;
         while((c = reader.read()) != RGASCII.CURLY_CLOSING_BRACKET.getAscii()){
 
             if(first==RGASCII.SLASH.getAscii() && second==RGASCII.ASTERIX.getAscii())
@@ -357,7 +357,7 @@ public class TSReader extends RGFileReader {
         Boolean export = false;
         int first = bufferedReader.read();
         int second = bufferedReader.read();
-        keyw += (char) first + (char) second;
+        //keyw += ((char) first) + ((char) second);
         while((c = bufferedReader.read()) != -1){
             // Until end of the file
             if(first==RGASCII.SLASH.getAscii() && second==RGASCII.ASTERIX.getAscii())
