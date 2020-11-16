@@ -15,4 +15,9 @@ public class RGGenerator2 implements RGComponentGenerator {
     public String mergedTable(List<Map<String, String>> components, String heading, String... columns) {
         return null;
     }
+
+    @Override
+    public String createDetailedViewOfClassFunctions(List<Map<String, String>> funcMap) {
+        return null;
+    }
 }

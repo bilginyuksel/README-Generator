@@ -13,6 +13,9 @@ public class TSFunction extends TSBaseComponent {
     private String docString;
     private String accessSpecifier;
 
+    private String description;
+    private String returnDescription;
+
     public TSFunction(String fName, String docString){
         this.fName = fName;
         this.docString = docString;
@@ -68,6 +71,22 @@ public class TSFunction extends TSBaseComponent {
         return accessSpecifier;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getReturnDescription() {
+        return returnDescription;
+    }
+
+    public void setReturnDescription(String returnDescription) {
+        this.returnDescription = returnDescription;
+    }
+
     @Override
     public String toString() {
         return "TSFunction{" +
@@ -76,6 +95,8 @@ public class TSFunction extends TSBaseComponent {
                 ", fName='" + fName + '\'' +
                 ", docString='" + docString + '\'' +
                 ", accessSpecifier='" + accessSpecifier + '\'' +
+                ", description='" + description + '\'' +
+                ", returnDescription='" + returnDescription + '\'' +
                 ", export=" + isExport() +
                 '}';
     }
@@ -90,10 +111,20 @@ public class TSFunction extends TSBaseComponent {
                     append(parameters.get(i).getType());
             if(i+1 != parameters.size()) parameterBuilder.append(", ");
         }parameterBuilder.append(")");
+        StringBuilder descBuilder = new StringBuilder();
+        descBuilder.append("(");
+        for(int i=0; i<parameters.size(); ++i){
+            descBuilder.append(parameters.get(i).getName())
+                    .append(":").append(parameters.get(i).getType())
+                    .append(":").append(parameters.get(i).getDescription());
+            if(i+1 != parameters.size()) descBuilder.append(", ");
+        }descBuilder.append(")");
         map.put("Name", fName);
         map.put("Parameters", parameterBuilder.toString());
+        map.put("Parameter Descriptions", descBuilder.toString());
         map.put("Return Type", this.getReturnType());
-        map.put("Description","");
+        map.put("Description", this.getDescription());
+        map.put("Return Description", this.getReturnDescription());
         return map;
     }
 }

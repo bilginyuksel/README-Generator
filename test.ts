@@ -31,7 +31,13 @@ class ClassFunction extends TypeFunction{
 
 let fatoma: ();
 
-function sample(sample:string): Promise<string>{
+
+/**
+ * Function description.
+ * @param {string} sample Param description.
+ * @returns Promise<string> Return description.
+ */
+export function sample(sample:string): Promise<string>{
 }
 
 class ClassVariables {
@@ -62,6 +68,13 @@ class TypeClass {
   }
 
 
+  /**
+   * Function description.
+   * @param {string} funcName Param description.
+   * @param {string} parameters Param description.
+   * @param {string} returnType Param description.
+   * @param {AccessSpecifier} accessSpecifier Param description.
+   */
   addFunction(funcName: string, parameters: string, returnType: string, accessSpecifier: AccessSpecifier) {
     this.functions.push();
   }

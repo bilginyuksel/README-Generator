@@ -1,206 +1,313 @@
-# CORDOVA-PLUGIN-HMS-MAP
+# Cordova Plugin HMS Nearby
 
 ## Contents
-  - [1. Introduction](#1-introduction)
-  - [2. Installation Guide](#2-installation-guide)
-  - [3. API Reference](#3-api-reference)
-  - [4. Configuration and Description](#4-configuration-and-description)
-  - [5. Sample Project](#5-sample-project)
-  - [6. Questions or Issues](#6-questions-or-issues)
-  - [7. Licencing and Terms](#7-licencing-and-terms)
+
+- [1. Introduction](#1-introduction)
+- [2. Installation Guide](#2-installation-guide)
+  - [2.1. Creating a Project in AppGallery Connect](#21-creating-a-project-in-appgallery-connect)
+  - [2.2. Configuring the Signing Certificate Fingerprint and Obtaining agconnect-services.json](#22-configuring-the-signing-certificate-fingerprint-and-obtaining-agconnect-servicesjson)
+  - [2.3. Cordova](#23-cordova)
+  - [2.4. Ionic](#24-ionic)
+    - [2.4.1. With Cordova Runtime](#241-with-cordova-runtime)
+    - [2.4.2. With Capacitor Runtime](#242-with-capacitor-runtime)
+- [3. API Reference](#3-api-reference)
+  - [3.1. Functions Overview](#31-functions-overview)
+    - [3.1.1. Public Methods](#311-public-methods)
+- [4. Configuration and Description](#4-configuration-and-description)
+- [5. Sample Project](#5-sample-project)
+- [6. Questions or Issues](#6-questions-or-issues)
+- [7. Licencing and Terms](#7-licencing-and-terms)
+
+---
 
 ## 1. Introduction
 
-**HUAWEI Map Kit** is a messaging service provided by Huawei. It establishes a messaging channel from the cloud to devices. By integrating Map Kit, you can send messages to your apps on users' devices in real time. This helps you maintain closer ties with users and increases user awareness and engagement with your apps.
+This plugin enables communication between Huawei Nearby SDK and Cordova platform. It exposes all functionality provided by Huawei Nearby SDK.
 
-This module enables communication between HUAWEI Map Kit SDK and Cordova platform. It exposes all functionality provided by HUAWEI Map Kit SDK.
+---
 
 ## 2. Installation Guide
 
 Before you get started, you must register as a HUAWEI Developer and complete identity verification on the [HUAWEI Developer](https://developer.huawei.com/consumer/en/) website. For details, please refer to [Register a HUAWEI ID](https://developer.huawei.com/consumer/en/doc/10104).
 
-### Creating a Project in AppGallery Connect
+### 2.1. Creating a Project in AppGallery Connect
+
 Creating an app in AppGallery Connect is required in order to communicate with the Huawei services. To create an app, perform the following steps:
 
-**Step 1.** Sign in to [AppGallery Connect](https://developer.huawei.com/consumer/en/service/josp/agc/index.html)  and select **My projects**.
-
-**Step 2.** Select your project from the project list or create a new one by clicking the **Add Project** button.
-
-**Step 3.** Go to **Project Setting** > **General information**, and click **Add app**.
+1. Sign in to [AppGallery Connect](https://developer.huawei.com/consumer/en/service/josp/agc/index.html)  and select **My projects**.
+2. Select your project from the project list or create a new one by clicking the **Add Project** button.
+3. Go to **Project Setting** > **General information**, and click **Add app**.
 If an app exists in the project and you need to add a new one, expand the app selection area on the top of the page and click **Add app**.
+4. On the **Add app** page, enter the app information, and click **OK**.
 
-**Step 4.** On the **Add app** page, enter the app information, and click **OK**.
+### 2.2. Configuring the Signing Certificate Fingerprint and Obtaining agconnect-services.json
 
-### Configuring the Signing Certificate Fingerprint
+A signing certificate fingerprint is used to verify the authenticity of an app when it attempts to access an HMS Core (APK) through the HMS SDK. Before using the HMS Core (APK), you must locally generate a signing certificate fingerprint and configure it in the **AppGallery Connect**. You can refer to 3rd and 4th steps of [Generating a Signing Certificate](https://developer.huawei.com/consumer/en/codelab/HMSPreparation/index.html#2) Codelab tutorial for the certificate generation. Perform the following steps after you have generated the certificate.
 
-A signing certificate fingerprint is used to verify the authenticity of an app when it attempts to access an HMS Core (APK) through the HMS SDK. Before using the HMS Core (APK), you must locally generate a signing certificate fingerprint and configure it in the **AppGallery Connect**. You can refer to 3rd and 4th steps of [Generating a Signing Certificate](https://developer.huawei.com/consumer/en/codelab/HMSPreparation/index.html#2) codelab tutorial for the certificate generation. Perform the following steps after you have generated the certificate.
+1. Sign in to [AppGallery Connect](https://developer.huawei.com/consumer/en/service/josp/agc/index.html) and select your project from **My Projects**. Then go to **Project Setting** > **General information**. In the **App information** field, click the  icon next to SHA-256 certificate fingerprint, and enter the obtained **SHA-256 certificate fingerprint**.
+2. After completing the configuration, click **OK** to save the changes. (Check mark icon)
+3. In the same page, click **agconnect-services.json** button to download the configuration file.
 
-**Step 1:** Sign in to [AppGallery Connect](https://developer.huawei.com/consumer/en/service/josp/agc/index.html) and select your project from **My Projects**. Then go to **Project Setting** > **General information**. In the **App information** field, click the  icon next to SHA-256 certificate fingerprint, and enter the obtained **SHA-256 certificate fingerprint**.
+### 2.3. Cordova
 
-**Step 2:**  After completing the configuration, click **OK** to save the changes. (Check mark icon)
-### Cordova
+1. Install Cordova CLI.
 
-1. Download the Cordova Map SDK Plugin.
-2. Add Platform To Project.
+    ```bash
+    npm install -g cordova
+    ```
 
-     ***```cordova platform add android```***
+2. Create a new Cordova project or use existing Cordova project.
 
-3. You can either install the plugin through npm or by downloading from downloads page.
+    - To create new Cordova project, you can use **`cordova create path [id [name [config]]] [options]`** command. For more details please follow [CLI Reference - Apache Cordova](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html#cordova-create-command).
 
-    a. Run the following command in the root directory of your Cordova project to install it through npm.
+3. Update the widget **`id`** property which is specified in the **`config.xml`** file. It must be same with **client > package_name** value of the **`agconnect-services.json`** file.
 
-    ***```cordova plugin add @hmscore/cordova-plugin-hms-map```***
+4. Add the **Android platform** to the project if haven't done before.
 
+    ```bash
+    cordova platform add android
+    ```
 
-    b. Run the following command in the root directuory of your Cordova project to install it manually after downloading the plugin. <br>
+5. Install `HMS Nearby plugin` to the project. You can either install the plugin through `npm` or by `downloading from HMS Core Plugin page`.
 
-    ***```cordova plugin add <CORDOVA_MAP_PLUGIN_PATH>```***
+    a. Run the following command in the root directory of your project to install it through **npm**.
 
+    ```bash
+    cordova plugin add @hmscore/cordova-plugin-hms-nearby
+    ```
 
-4. Check whether the Cordova Map SDK is successfully added to Plugin folder in the root directory of the Cordova project.
+    b. Or download the plugin from [Plugin > Nearby Kit > Cordova Plugin](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page and run the following command in the root directory of your project to **install it manually**.
 
-5. Download **agconnect-services.json** file from AppGallery Connect.
+    ```bash
+    cordova plugin add <hms_cordova_nearby_plugin_path>
+    ```
 
-6. Add **agconnect-services.json** and **jks** file to root directory.
+6. Copy **`agconnect-services.json`** file to **`<project_root>/platforms/android/app`** directory.
 
-7. Add build.json file to your project's root. Add following code to build.json file and edit  build.json file according to your own keystore file.
+7. Add **`keystore(.jks)`** and **`build.json`** files to your project's root directory.
+
+    - You can refer to 3rd and 4th steps of [Generating a Signing Certificate](https://developer.huawei.com/consumer/en/codelab/HMSPreparation/index.html#2) Codelab tutorial page for generating keystore file.
+    - Fill **`build.json`** file according to your keystore information. For example:
+
     ```json
     {
         "android": {
             "debug": {
-                "keystore": "./storeFile.jks",
-                "storePassword": "storePassword",
-                "alias": "keyAlias",
-                "password": "keyPassword"
+                "keystore": "<keystore_file>.jks",
+                "storePassword": "<keystore_password>",
+                "alias": "<key_alias>",
+                "password": "<key_password>"
             },
             "release": {
-                "keystore": "./storeFile.jks",
-                "storePassword": "storePassword",
-                "alias": "keyAlias",
-                "password": "keyPassword"
+                "keystore": "<keystore_file>.jks",
+                "storePassword": "<keystore_password>",
+                "alias": "<key_alias>",
+                "password": "<key_password>"
             }
         }
     }
     ```
 
-8. Make sure widget id is same as your package name in config.xml. Otherwise demo project will not work properly.
+8. Run the application.
 
-9. Then run the Cordova app
+    ```bash
+    cordova run android --device
+    ```
 
-     ***```cordova run android```***
+---
 
-### Ionic
+### 2.4. Ionic
 
-1. Download the Cordova Map SDK Plugin through npm or by downloading from downloads page.
+1. Install Ionic CLI.
 
-    a. Run the following command in the root directuory of your Cordova project to install it manually after downloading the plugin. <br>
+    ```bash
+    npm install -g @ionic/cli
+    ```
 
-    ***```npm install <CORDOVA_MAP_PLUGIN_PATH>```***
-    <br>
+2. Create a new Ionic project or use existing Ionic project.
 
-    b. Run the following command in the root directory of your Ionic project to install it through npm.
+    - To create a new Ionic project, you can use **`ionic start <name> <template> [options]`** command. For more details please follow [ionic start - Ionic Documentation](https://ionicframework.com/docs/cli/commands/start).
 
-    ***`npm install @hmscore/cordova-plugin-hms-map`***
+#### 2.4.1. With Cordova Runtime
 
+1. Enable the **Cordova integration** if haven't done before.
 
-2. Check whether the Cordova Map SDK is successfully added to the node_modules directory.
+    ```bash
+    ionic integrations enable cordova
+    ```
 
-3. If you want full Ionic support with code completion etc, install"@ionic-native/core" in your project. <br>
+2. Update the widget **`id`** property which is specified in the **`config.xml`** file. It must be same with **client > package_name** value of the **`agconnect-services.json`** file.
 
-    ***`npm install @ionic-native/core --save-dev`***
+3. Add the **Android platform** to the project if haven't done before.
 
-4. Copy the "ionic/dist/hms-map" folder from library to "node_modules/@ionic-native" folder under your Ionic project.
+    ```bash
+    ionic cordova platform add android
+    ```
 
-5. Compile ionic project.
+4. Install `HMS Nearby plugin` to the project. You can either install the plugin through `npm` or by `downloading from HMS Core Plugin page`.
 
-    a. ***`ionic build`***
+    a. Run the following command in the root directory of your project to install it through **npm**.
 
-    b. ***`npx cap init [appName] [appId]`***
+    ```bash
+    ionic cordova plugin add @hmscore/cordova-plugin-hms-nearby
+    ```
 
-    > ***NOTE*** <br>
-    > where appName is the name of your app, and appId is package_name in your agconnect-services.json file (ex: com.example.app).
+    b. Or download the plugin from [Plugin > Nearby Kit > Cordova Plugin](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page and run the following command in the root directory of your project to **install it manually**.
 
-6. Add a native platform to your project.
+    ```bash
+    ionic cordova plugin add <hms_cordova_nearby_plugin_path>
+    ```
 
-    ***`ionic capacitor add android`***
+5. Copy **hms-nearby** folder from **`node_modules/@hmscore/cordova-plugin-hms-nearby/ionic/wrapper/dist`** directory to **`node_modules/@ionic-native`** directory.
 
-7. Configure the Maven repository address and AppGallery Connect plug-in address for the AppGallery Connect SDK.
-    1. Open the build.gradle file in the root directory under `android` folder.
-    2. Go to allprojects > repositories and configure the Maven repository address for the AppGallery Connect SDK.
-        ```gradle
-        allprojects {
-            repositories {
-                google()
-                jcenter()
-                maven {url 'https://developer.huawei.com/repo/'}
+6. Copy **`agconnect-services.json`** file to **`<project_root>/platforms/android/app`** directory.
+
+7. Add **`keystore(.jks)`** and **`build.json`** files to your project's root directory.
+
+    - You can refer to 3rd and 4th steps of [Generating a Signing Certificate](https://developer.huawei.com/consumer/en/codelab/HMSPreparation/index.html#2) Codelab tutorial page for generating keystore file.
+
+    - Fill **`build.json`** file according to your keystore information. For example:
+
+    ```json
+    {
+        "android": {
+            "debug": {
+                "keystore": "<keystore_file>.jks",
+                "storePassword": "<keystore_password>",
+                "alias": "<key_alias>",
+                "password": "<key_password>"
+            },
+            "release": {
+                "keystore": "<keystore_file>.jks",
+                "storePassword": "<keystore_password>",
+                "alias": "<key_alias>",
+                "password": "<key_password>"
             }
         }
-        ```
+    }
+    ```
 
-    3. Go to buildscript > repositories and configure the Maven repository address for the AppGallery Connect SDK.
+8. Run the application.
 
-        ```gradle
-        buildscript {
-            repositories {
-                google()
-                jcenter()
-                maven {url 'https://developer.huawei.com/repo/'}
+   ```bash
+   ionic cordova run android --device
+   ```
+
+#### 2.4.2. With Capacitor Runtime
+
+1. Enable the **Capacitor integration** if haven't done before.
+
+   ```bash
+   ionic integrations enable capacitor
+   ```
+
+2. Update the widget **`appId`** property which is specified in the **`capacitor.config.json`** file. It must be same with **client > package_name** value of the **`agconnect-services.json`** file.
+
+3. Install `HMS Nearby plugin` to the project. You can either install the plugin through `npm` or by `downloading from HMS Core Plugin page`.
+
+   a. Run the following command in the root directory of your project to install it through **npm**.
+
+    ```bash
+    npm install @hmscore/cordova-plugin-hms-nearby
+    ```
+
+   b. Or download the plugin from [Plugin > Nearby Kit > Cordova Plugin](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page and run the following command in the root directory of your project to **install it manually**.
+
+    ```bash
+    npm install <hms_cordova_nearby_plugin_path>
+    ```
+
+4. Copy **hms-nearby** folder from **`node_modules/@hmscore/cordova-plugin-hms-nearby/ionic/wrapper/dist`** directory to **`node_modules/@ionic-native`** directory.
+
+5. Build Ionic app to generate resource files.
+
+    ```bash
+    ionic build
+    ```
+
+6. Add the **Android platform** to the project if haven't done before.
+
+    ```bash
+    npx cap add android
+    ```
+
+7. Copy **`keystore(.jks)`** and **`agconnect-services.json`** files to **`<project_root>/android/app`** directory.
+
+    - You can refer to 3rd and 4th steps of [Generating a Signing Certificate](https://developer.huawei.com/consumer/en/codelab/HMSPreparation/index.html#2) Codelab tutorial page for generating keystore file.
+
+8. Open the **`build.gradle`** file in the **`<project_root>/android/app`** directory.
+
+    - Add `signingConfigs` entry to **android** according to your keystore information.
+    - Enable `signingConfig` configuration to **debug** and **release** flavors.
+    - Apply `com.huawei.agconnect` plugin.
+
+    ```groovy
+    ...
+
+    android {
+
+        ...
+
+        // Add signingConfigs according to your keystore information
+        signingConfigs {
+            config {
+                storeFile file('<keystore_file>.jks')
+                storePassword '<keystore_password>'
+                keyAlias '<key_alias>'
+                keyPassword '<key_password>'
             }
         }
-        ```
-     4. Go to buildscript > dependencies and configure the AppGallery Connect plug-in address.
-
-        ```gradle
-        buildscript {
-            dependencies {
-                classpath 'com.huawei.agconnect:agcp:1.4.1.300'
-            }
-        }
-        ```
-8. Add build dependencies and the AppGallery Connect plug-in address.
-
-    1. Open the build.gradle file in the app directory.
-    2. Add the AppGallery Connect plug-in dependency to the bottom of the file.
-        ```gradle
-        apply plugin: 'com.huawei.agconnect'
-        ```
-    3. Add signingConfig inside the android section
-        ```gradle
-        android{
-            signingConfigs{
-                config{
-                    keyAlias 'keyAlias'
-                    keyPassword 'keyPassword'
-                    storeFile file('storeFile')
-                    storePassword 'storePassword'
-                }
-            }
-            buildTypes {
+        buildTypes {
             debug {
-                signingConfig signingConfigs.config
+                signingConfig signingConfigs.config // Enable signingConfig in debug flavor
             }
             release {
-                signingConfig signingConfigs.config
+                signingConfig signingConfigs.config // Enable signingConfig in release flavor
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             }
         }
-        ```
+    }
 
-    4. Add the following code to dependencies.
-        ```gradle
-        dependencies {
-            // other dependencies
-            implementation "com.huawei.hms:map:5.0.2.300"
+    ...
+
+    apply plugin: 'com.huawei.agconnect' // Apply com.huawei.agconnect plugin. This line must be added to the end of the file.
+    ```
+
+9. Open the **`build.gradle`** file in the **`<project_root>/android`** directory. Add **Huawei's maven repositories** and **agconnect classpath** to the file.
+
+    ```groovy
+    buildscript {
+        repositories {
+            /*
+                <Other repositories>
+            */
+            maven { url 'https://developer.huawei.com/repo/' }
         }
-        ```
+        dependencies {
+            /*
+                <Other dependencies>
+            */
+            classpath 'com.huawei.agconnect:agcp:1.4.1.300'
+        }
+    }
 
-9. Add agconnect-services.json and jks file to the app directory in your Android project.
+    /*
+        <Other build.gradle entries>
+    */
 
-10. To update dependencies, and copy any web assets to your project, add following code.
+    allprojects {
+        repositories {
+            /*
+                <Other repositories>
+            */
+            maven { url 'https://developer.huawei.com/repo/' }
+        }
+    }
+    ```
 
-    ***`npx capacitor sync`***
+10. Open the project in Android Studio and run it.
 
-11. Then run the Ionic app.
-
-    ***`ionic capacitor run android`***
-
-    After this command, the demo will be opened android studio. Just run it.
+    ```bash
+    npx cap open android
+    ```

@@ -1,6 +1,6 @@
 package readme.generator.ts;
 
-import javafx.util.Pair;
+import readme.generator.Pair;
 import readme.generator.RGComponent;
 
 import java.util.ArrayList;
