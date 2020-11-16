@@ -16,9 +16,15 @@ import java.util.List;
 public class TSReader extends RGFileReader {
 
 
-    private RGComponent readTsFunctionTemplate(BufferedReader reader, Boolean export) throws IOException{
+    private RGComponent readTsFunctionTemplate(BufferedReader reader, Boolean export, TSDoc tsDoc) throws IOException{
         TSFunction tsFunction = new TSFunction();
         tsFunction.setExport(export);
+
+        if(tsDoc != null){
+            tsFunction.setDescription(tsDoc.getDescription());
+            tsFunction.setDocString(tsDoc.toString());
+            tsFunction.setReturnDescription(tsDoc.getReturnDescription());
+        }
 
         String functionName = "";
         int c = 0;
@@ -44,13 +50,29 @@ public class TSReader extends RGFileReader {
                 var.setType("any");
             }
 
+            if (tsDoc != null){
+                for (TSVariable com:tsDoc.getParameters()) {
+                    if(com.getName().trim().replace("?", "").equals(var.getName().trim()) && com.getType().trim().equals(var.getType().trim())){
+                        var.setDescription(com.getDescription());
+                    }
+                }
+            }
+
             tsFunction.setParameter(var);
         }
 
         String returnType = "";
-        while ((c = reader.read()) != RGASCII.CURLY_OPENING_BRACKET.getAscii()) // Find the starting curly bracket
+        while ((c = reader.read()) != RGASCII.CURLY_OPENING_BRACKET.getAscii()) {
+            // Find the starting curly bracket
+            if(c == ';'){
+                tsFunction.setReturnType(returnType);
+                return tsFunction;
+            }
+
             if (!(c == RGASCII.LINE_FEED.getAscii() || c == RGASCII.NEW_LINE.getAscii() || c == RGASCII.SPACE.getAscii() || c == RGASCII.COLON.getAscii()))
                 returnType += (char) c;
+        }
+
 
         tsFunction.setReturnType(returnType);
 
@@ -175,6 +197,41 @@ public class TSReader extends RGFileReader {
         return tsInterface;
     }
 
+    private RGComponent readTSDoc(BufferedReader reader) throws IOException {
+        TSDoc tsDoc = new TSDoc();
+        List<TSVariable> tsVariables = new ArrayList<>();
+
+        String line = "";
+        while (!line.endsWith("*/")){
+            line = reader.readLine().trim();
+
+            if(line.startsWith("* @param")){
+                String[] split = line.split(" ", 5);
+                TSVariable tsVariable = new TSVariable();
+                if(split.length > 2)
+                    tsVariable.setType(split[2].replace("{","").replace("}",""));
+                if(split.length > 3)
+                    tsVariable.setName(split[3]);
+                if(split.length > 4)
+                    tsVariable.setDescription(split[4]);
+                tsVariables.add(tsVariable);
+            }
+            else if (line.startsWith("* @returns")){
+                String[] split = line.split(" ", 4);
+                if(split.length > 3)
+                    tsDoc.setReturnDescription(split[3]);
+            }
+            else {
+                if(line.startsWith("* ") && (tsDoc.getDescription() == null || tsDoc.getDescription().isEmpty())){
+                    tsDoc.setDescription(line.substring(2));
+                }
+            }
+
+        }
+        tsDoc.setParameters(tsVariables);
+        return tsDoc;
+    }
+
     private RGComponent readSingleLineComment(BufferedReader reader) throws IOException{
         // System.out.println("Single line comment reading...");
         /*
@@ -226,6 +283,8 @@ public class TSReader extends RGFileReader {
             tsClass.setSuffixClass(classProps.get(2));
         }
 
+        TSDoc currentTsDoc = null;
+
         // Find functions and variables inside class, and also their access specifiers too.
         // I need to find what are variables and functions.
         String name = "";
@@ -235,7 +294,9 @@ public class TSReader extends RGFileReader {
         //name+=(char) first + (char) second;
         while((c = reader.read()) != RGASCII.CURLY_CLOSING_BRACKET.getAscii()){
 
-            if(first==RGASCII.SLASH.getAscii() && second==RGASCII.ASTERIX.getAscii())
+            if(first==RGASCII.SLASH.getAscii() && second==RGASCII.ASTERIX.getAscii() && c==RGASCII.ASTERIX.getAscii())
+                currentTsDoc = (TSDoc) readTSDoc(reader);
+            else if(first==RGASCII.SLASH.getAscii() && second==RGASCII.ASTERIX.getAscii())
                 readMultipleLineComment(reader);
             else if(first==RGASCII.SLASH.getAscii() && second==RGASCII.SLASH.getAscii())
                 readSingleLineComment(reader);
@@ -255,6 +316,13 @@ public class TSReader extends RGFileReader {
                 TSFunction tsFunction = new TSFunction();
                 tsFunction.setfName(name);
                 tsFunction.setAccessSpecifier(accessSpecifier==null?"default":accessSpecifier);
+
+                if(currentTsDoc != null){
+                    tsFunction.setDescription(currentTsDoc.getDescription());
+                    tsFunction.setDocString(currentTsDoc.toString());
+                    tsFunction.setReturnDescription(currentTsDoc.getReturnDescription());
+                }
+
                 // tsFunction.setExport(according to access specifiers inherit)
                 String parameters = "";
                 boolean isFunctionType = false;
@@ -282,6 +350,14 @@ public class TSReader extends RGFileReader {
                     }else{
                         var.setName(param);
                         var.setType("any");
+                    }
+
+                    if (currentTsDoc != null){
+                        for (TSVariable com:currentTsDoc.getParameters()) {
+                            if(com.getName().trim().replace("?", "").equals(var.getName().trim()) && com.getType().trim().equals(var.getType().trim())){
+                                var.setDescription(com.getDescription());
+                            }
+                        }
                     }
                     tsFunction.setParameter(var);
                 }
@@ -312,6 +388,7 @@ public class TSReader extends RGFileReader {
                     }
                 }
                 tsClass.addFunction(tsFunction);
+                currentTsDoc = null;
             }else if(c == RGASCII.COLON.getAscii()){
                 // That means this is a variable
                 // Go until you find semicolon or new line line feed
@@ -352,6 +429,8 @@ public class TSReader extends RGFileReader {
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
+        TSDoc currentTsDoc = null;
+
         int c = 0;
         String keyw = "";
         Boolean export = false;
@@ -359,8 +438,12 @@ public class TSReader extends RGFileReader {
         int second = bufferedReader.read();
         //keyw += ((char) first) + ((char) second);
         while((c = bufferedReader.read()) != -1){
+
+
             // Until end of the file
-            if(first==RGASCII.SLASH.getAscii() && second==RGASCII.ASTERIX.getAscii())
+            if(first==RGASCII.SLASH.getAscii() && second==RGASCII.ASTERIX.getAscii() && c==RGASCII.ASTERIX.getAscii())
+                currentTsDoc = (TSDoc) readTSDoc(bufferedReader);
+            else if(first==RGASCII.SLASH.getAscii() && second==RGASCII.ASTERIX.getAscii())
                 readMultipleLineComment(bufferedReader);
             else if(first==RGASCII.SLASH.getAscii() && second==RGASCII.SLASH.getAscii())
                 readSingleLineComment(bufferedReader);
@@ -377,8 +460,10 @@ public class TSReader extends RGFileReader {
                     continue;
                 }
 
-                if(keyw.equals(TSKeywords.FUNCTION.getKeyword()))
-                    rgFileData.addComponent(readTsFunctionTemplate(bufferedReader, export));
+                if(keyw.equals(TSKeywords.FUNCTION.getKeyword())){
+                    rgFileData.addComponent(readTsFunctionTemplate(bufferedReader, export, currentTsDoc));
+                    currentTsDoc = null;
+                }
                 else if(keyw.equals(TSKeywords.ENUM.getKeyword()))
                     rgFileData.addComponent(readTsEnumTemplate(bufferedReader, export));
                 else if(keyw.equals(TSKeywords.INTERFACE.getKeyword()))

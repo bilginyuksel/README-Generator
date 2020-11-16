@@ -17,9 +17,9 @@ public class Main {
         RGFileData rgFileData = null;
         // RGFileData data = null;
         try{
-            rgFileData = rgFileReader.readAll("scripts", "ts");
-            // rgFileData = rgFileReader.read("<absolute-file-path>");
-            writer.generateREADME(rgFileData, "MAPS_NEW.md");
+//            rgFileData = rgFileReader.readAll("scripts", "ts");
+             rgFileData = rgFileReader.read("test.ts");
+            writer.generateREADME(rgFileData, "NEARBY.md");
             // writer.generateREADME(data, "TEST2.md");
         }catch (IOException e){
             e.printStackTrace();

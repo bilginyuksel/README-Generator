@@ -1,6 +1,6 @@
 package readme.generator.ts;
 
-import javafx.util.Pair;
+import readme.generator.Pair;
 
 import java.util.*;
 

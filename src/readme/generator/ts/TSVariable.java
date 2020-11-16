@@ -9,6 +9,7 @@ public class TSVariable extends TSBaseComponent {
     private String type;
     private String defaultValue;
     private String accessSpecifier;
+    private String description;
 
     public TSVariable(){}
 
@@ -45,6 +46,14 @@ public class TSVariable extends TSBaseComponent {
         return type;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "TSVariable{" +
@@ -52,6 +61,7 @@ public class TSVariable extends TSBaseComponent {
                 ", type='" + type + '\'' +
                 ", defaultValue='" + defaultValue + '\'' +
                 ", accessSpecifier='" + accessSpecifier + '\'' +
+                ", description='" + description + '\'' +
                 ", export=" + isExport() +
                 '}';
     }
@@ -63,6 +73,7 @@ public class TSVariable extends TSBaseComponent {
         map.put("Type", this.type);
         map.put("Default", this.defaultValue);
         map.put("AccessSpecifier", this.accessSpecifier);
+        map.put("Description", this.description);
         return map;
     }
 }

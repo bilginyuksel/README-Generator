@@ -4,8 +4,6 @@ import readme.generator.ts.TSClass;
 import readme.generator.ts.TSEnum;
 import readme.generator.ts.TSInterface;
 
-import javafx.util.Pair;
-
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +68,7 @@ public class RGGenerator1 implements RGComponentGenerator {
         return "";
     }
 
-    private String createDetailedViewOfClassFunctions(List<Map<String, String>> funcMap) {
+    public String createDetailedViewOfClassFunctions(List<Map<String, String>> funcMap) {
         StringBuilder builder = new StringBuilder();
         // Check HUAWEI developer site.
         // https://developer.huawei.com/consumer/en/doc/development/HMSCore-References-V5/huaweimap-0000001050151757-V5
@@ -80,30 +78,42 @@ public class RGGenerator1 implements RGComponentGenerator {
             String fName = map.get("Name");
             String fReturnType = map.get("Return Type");
             String fParametersString = map.get("Parameters");
+            String fDescription = map.get("Description");
+            String fReturnDescription = map.get("Return Description");
+            String fParametersDescString = map.get("Parameter Descriptions");
             builder.append("##### ").append(fName).append(fParametersString).append("\n");
 
             // I don't get her ebuilder.append("| Method |").append("|---|");
-            builder.append("Function explanation field...\n");
+            builder.append(fDescription).append("\n");
             if (!fParametersString.equals("()")) {
                 builder.append("###### Parameters\n");
                 //builder.append("|Name|Description|\n");
                 builder.append("|Name|Type|Description|\n");
                 //builder.append("|---|---|\n");
                 builder.append("|---|---|---|\n");
-                String paramsString = fParametersString.trim().replace("(", "").replace(")", "");
+
+//                String paramsString = fParametersString.trim().replace("(", "").replace(")", "");
+                String paramsString = fParametersDescString.trim().replace("(", "").replace(")", "");
+
                 String[] params = paramsString.split(",");
                 for (String s : params) {
-                    //builder.append(String.format("|%s|%s|\n",s.split(":")[0],s.split(":")[1]));
-                    builder.append(String.format("|%s|%s|-|\n", s.split(":")[0], s.split(":")[1]));
+                    String split[] = s.split(":", 3);
+
+                    if(split.length > 2){
+                        builder.append(String.format("|%s|%s|%s|\n", split[0], split[1], split[2]));
+                    } else {
+                        builder.append(String.format("|%s|%s||\n", split[0], split[1]));
+                    }
                 }
             }
             builder.append("###### Return Type\n");
             builder.append("|Type|Description|\n");
             builder.append("|---|---|\n");
-            builder.append(String.format("|`%s`|-|\n", fReturnType));
+            builder.append(String.format("|`%s`|%s|\n", fReturnType, fReturnDescription));
 
             builder.append("###### Call Example\n");
-            builder.append("```ts\nExample code block\n```\n\n");
+
+            builder.append(String.format("```ts\n%s\n```\n\n", generateExampleCode(fName, fReturnType, fParametersString)));
             // Parameter type description table
             // Return description table
         }
@@ -126,6 +136,49 @@ public class RGGenerator1 implements RGComponentGenerator {
             builder.append(String.format("|`%s`", components.get(i).get("Return Type")));
             builder.append(String.format("|%s|\n", components.get(i).get("Description")));
         }
+        return builder.toString();
+    }
+
+    public String generateExampleCode(String methodName, String returnType, String parameterStrings) {
+        StringBuilder builder = new StringBuilder();
+        if(returnType.contains("Promise")) {
+            builder.append("async ");
+        }
+        builder.append(String.format("function %s() {\n", methodName));
+        builder.append("\ttry {\n");
+
+        if (!parameterStrings.equals("()")) {
+            String paramsString = parameterStrings.trim().replace("(", "").replace(")", "").replace("?", "");
+            String[] params = paramsString.split(",");
+            for (String s : params) {
+                builder.append(String.format("\t\tconst %s = 'todo';\n", s.split(":")[0].trim()));
+            }
+
+            builder.append("\t\t");
+            if(returnType.contains("Promise")) {
+                builder.append("await ");
+            }
+            builder.append(String.format("HMSNearby.%s(", methodName));
+
+            String prefix = "";
+            for (String s : params) {
+                builder.append(String.format("%s%s", prefix, s.split(":")[0].trim()));
+                prefix = ", ";
+            }
+            builder.append(");\n");
+
+        } else {
+            builder.append("\t\t");
+            if(returnType.contains("Promise")) {
+                builder.append("await ");
+            }
+            builder.append(String.format("HMSNearby.%s();\n", methodName));
+        }
+
+        builder.append("\t} catch(ex) {\n");
+        builder.append("\t\talert(JSON.stringify(ex));\n");
+        builder.append("\t}\n");
+        builder.append("}");
         return builder.toString();
     }
 }
