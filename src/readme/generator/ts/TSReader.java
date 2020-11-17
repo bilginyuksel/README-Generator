@@ -98,9 +98,16 @@ public class TSReader extends RGFileReader {
 
         String[]eVarList = eVariables.split(",");
         if(eVariables.length() < 1) eVarList = new String[0];
-        for(String var : eVarList){
-            String[] nava = var.split("=");
-            TSEnum.EnumVar enumVar = new TSEnum.EnumVar(nava[0], nava[1]);
+        for (int i = 0; i < eVarList.length; i++) {
+            String var = eVarList[i];
+            TSEnum.EnumVar enumVar;
+            if (var.contains("=")) {
+                String[] nava = var.split("=");
+                enumVar = new TSEnum.EnumVar(nava[0], nava[1]);
+            } else {
+                String[] nava = var.split(",");
+                enumVar = new TSEnum.EnumVar(nava[0], i + "");
+            }
             tsEnum.addVariable(enumVar);
         }
 

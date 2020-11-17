@@ -1,5 +1,6 @@
 scripts
 out
-MAPS_NEW.md
+**.md
+!README.md
 .idea
 Readme-Generator.iml
