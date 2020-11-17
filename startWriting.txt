@@ -1,4 +1,4 @@
-# Cordova Plugin HMS Nearby
+# Cordova Plugin HMS <name>
 
 ## Contents
 
@@ -11,18 +11,16 @@
     - [2.4.1. With Cordova Runtime](#241-with-cordova-runtime)
     - [2.4.2. With Capacitor Runtime](#242-with-capacitor-runtime)
 - [3. API Reference](#3-api-reference)
-  - [3.1. Functions Overview](#31-functions-overview)
-    - [3.1.1. Public Methods](#311-public-methods)
 - [4. Configuration and Description](#4-configuration-and-description)
 - [5. Sample Project](#5-sample-project)
 - [6. Questions or Issues](#6-questions-or-issues)
-- [7. Licencing and Terms](#7-licencing-and-terms)
+- [7. Licensing and Terms](#7-licensing-and-terms)
 
 ---
 
 ## 1. Introduction
 
-This plugin enables communication between Huawei Nearby SDK and Cordova platform. It exposes all functionality provided by Huawei Nearby SDK.
+This plugin enables communication between Huawei <name> SDK and Cordova platform. It exposes all functionality provided by Huawei <name> SDK.
 
 ---
 
@@ -68,18 +66,18 @@ A signing certificate fingerprint is used to verify the authenticity of an app w
     cordova platform add android
     ```
 
-5. Install `HMS Nearby plugin` to the project. You can either install the plugin through `npm` or by `downloading from HMS Core Plugin page`.
+5. Install `HMS <name> plugin` to the project. You can either install the plugin through `npm` or by `downloading from HMS Core Plugin page`.
 
     a. Run the following command in the root directory of your project to install it through **npm**.
 
     ```bash
-    cordova plugin add @hmscore/cordova-plugin-hms-nearby
+    cordova plugin add @hmscore/cordova-plugin-hms-<name>
     ```
 
-    b. Or download the plugin from [Plugin > Nearby Kit > Cordova Plugin](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page and run the following command in the root directory of your project to **install it manually**.
+    b. Or download the plugin from [Plugin > <name> Kit > Cordova Plugin](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page and run the following command in the root directory of your project to **install it manually**.
 
     ```bash
-    cordova plugin add <hms_cordova_nearby_plugin_path>
+    cordova plugin add <hms_cordova_<name>_plugin_path>
     ```
 
 6. Copy **`agconnect-services.json`** file to **`<project_root>/platforms/android/app`** directory.
@@ -114,9 +112,7 @@ A signing certificate fingerprint is used to verify the authenticity of an app w
     cordova run android --device
     ```
 
----
-
-### 2.4. Ionic
+### Ionic
 
 1. Install Ionic CLI.
 
@@ -144,21 +140,21 @@ A signing certificate fingerprint is used to verify the authenticity of an app w
     ionic cordova platform add android
     ```
 
-4. Install `HMS Nearby plugin` to the project. You can either install the plugin through `npm` or by `downloading from HMS Core Plugin page`.
+4. Install `HMS <name> plugin` to the project. You can either install the plugin through `npm` or by `downloading from HMS Core Plugin page`.
 
     a. Run the following command in the root directory of your project to install it through **npm**.
 
     ```bash
-    ionic cordova plugin add @hmscore/cordova-plugin-hms-nearby
+    ionic cordova plugin add @hmscore/cordova-plugin-hms-<name>
     ```
 
-    b. Or download the plugin from [Plugin > Nearby Kit > Cordova Plugin](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page and run the following command in the root directory of your project to **install it manually**.
+    b. Or download the plugin from [Plugin > <name> Kit > Cordova Plugin](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page and run the following command in the root directory of your project to **install it manually**.
 
     ```bash
-    ionic cordova plugin add <hms_cordova_nearby_plugin_path>
+    ionic cordova plugin add <hms_cordova_<name>_plugin_path>
     ```
 
-5. Copy **hms-nearby** folder from **`node_modules/@hmscore/cordova-plugin-hms-nearby/ionic/wrapper/dist`** directory to **`node_modules/@ionic-native`** directory.
+5. Copy **hms-<name>** folder from **`node_modules/@hmscore/cordova-plugin-hms-<name>/ionic/dist`** directory to **`node_modules/@ionic-native`** directory.
 
 6. Copy **`agconnect-services.json`** file to **`<project_root>/platforms/android/app`** directory.
 
@@ -203,21 +199,21 @@ A signing certificate fingerprint is used to verify the authenticity of an app w
 
 2. Update the widget **`appId`** property which is specified in the **`capacitor.config.json`** file. It must be same with **client > package_name** value of the **`agconnect-services.json`** file.
 
-3. Install `HMS Nearby plugin` to the project. You can either install the plugin through `npm` or by `downloading from HMS Core Plugin page`.
+3. Install `HMS <name> plugin` to the project. You can either install the plugin through `npm` or by `downloading from HMS Core Plugin page`.
 
    a. Run the following command in the root directory of your project to install it through **npm**.
 
     ```bash
-    npm install @hmscore/cordova-plugin-hms-nearby
+    npm install @hmscore/cordova-plugin-hms-<name>
     ```
 
-   b. Or download the plugin from [Plugin > Nearby Kit > Cordova Plugin](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page and run the following command in the root directory of your project to **install it manually**.
+   b. Or download the plugin from [Plugin > <name> Kit > Cordova Plugin](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page and run the following command in the root directory of your project to **install it manually**.
 
     ```bash
-    npm install <hms_cordova_nearby_plugin_path>
+    npm install <hms_cordova_<name>_plugin_path>
     ```
 
-4. Copy **hms-nearby** folder from **`node_modules/@hmscore/cordova-plugin-hms-nearby/ionic/wrapper/dist`** directory to **`node_modules/@ionic-native`** directory.
+4. Copy **hms-<name>** folder from **`node_modules/@hmscore/cordova-plugin-hms-<name>/ionic/dist`** directory to **`node_modules/@ionic-native`** directory.
 
 5. Build Ionic app to generate resource files.
 
@@ -311,3 +307,5 @@ A signing certificate fingerprint is used to verify the authenticity of an app w
     ```bash
     npx cap open android
     ```
+
+---

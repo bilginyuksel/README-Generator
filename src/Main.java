@@ -15,12 +15,10 @@ public class Main {
         RGFileWriter writer = new TSWriter();
 
         RGFileData rgFileData = null;
-        // RGFileData data = null;
         try{
-//            rgFileData = rgFileReader.readAll("scripts", "ts");
-             rgFileData = rgFileReader.read("test.ts");
-            writer.generateREADME(rgFileData, "NEARBY.md");
-            // writer.generateREADME(data, "TEST2.md");
+            rgFileData = rgFileReader.readAll("scripts", "ts");
+            //don't change the outputFileName and don't push .md files.
+            writer.generateREADME(rgFileData, "README.md");
         }catch (IOException e){
             e.printStackTrace();
         }

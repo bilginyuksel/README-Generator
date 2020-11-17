@@ -1,13 +1,13 @@
 
 ## 4. Configuration and Description
 
-No
+N/A
 
 ---
 
 ## 5. Sample Project
 
-You can find the sample projects on [HMS Core > Examples > Nearby Kit](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page.
+You can find the sample projects on [HMS Core > Examples > <name> Kit](https://developer.huawei.com/consumer/en/doc/overview/HMS-Core-Plugin) page.
 
 ---
 
@@ -24,6 +24,6 @@ If you run into a bug in our samples, please submit an issue to the [GitHub repo
 
 ---
 
-## 7. Licencing and Terms
+## 7. Licensing and Terms
 
-Huawei Nearby Kit Cordova Plugin is licensed under the [Apache 2.0 license](LICENCE).
+Huawei <name> Kit Cordova Plugin is licensed under the [Apache 2.0 license](LICENCE).

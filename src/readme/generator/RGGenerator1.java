@@ -84,7 +84,8 @@ public class RGGenerator1 implements RGComponentGenerator {
             builder.append("##### ").append(fName).append(fParametersString).append("\n");
 
             // I don't get her ebuilder.append("| Method |").append("|---|");
-            builder.append(fDescription).append("\n");
+            if (fDescription != null)
+                builder.append(fDescription).append("\n");
             if (!fParametersString.equals("()")) {
                 builder.append("###### Parameters\n");
                 //builder.append("|Name|Description|\n");
@@ -109,6 +110,8 @@ public class RGGenerator1 implements RGComponentGenerator {
             builder.append("###### Return Type\n");
             builder.append("|Type|Description|\n");
             builder.append("|---|---|\n");
+            if (fReturnDescription == null)
+                fReturnDescription = "-";
             builder.append(String.format("|`%s`|%s|\n", fReturnType, fReturnDescription));
 
             builder.append("###### Call Example\n");
@@ -145,8 +148,6 @@ public class RGGenerator1 implements RGComponentGenerator {
             builder.append("async ");
         }
         builder.append(String.format("function %s() {\n", methodName));
-        builder.append("\ttry {\n");
-
         if (!parameterStrings.equals("()")) {
             String paramsString = parameterStrings.trim().replace("(", "").replace(")", "").replace("?", "");
             String[] params = paramsString.split(",");
@@ -158,7 +159,7 @@ public class RGGenerator1 implements RGComponentGenerator {
             if(returnType.contains("Promise")) {
                 builder.append("await ");
             }
-            builder.append(String.format("HMSNearby.%s(", methodName));
+            builder.append(String.format("HMS<name>.%s(", methodName));
 
             String prefix = "";
             for (String s : params) {
@@ -172,12 +173,8 @@ public class RGGenerator1 implements RGComponentGenerator {
             if(returnType.contains("Promise")) {
                 builder.append("await ");
             }
-            builder.append(String.format("HMSNearby.%s();\n", methodName));
+            builder.append(String.format("HMS<name>.%s();\n", methodName));
         }
-
-        builder.append("\t} catch(ex) {\n");
-        builder.append("\t\talert(JSON.stringify(ex));\n");
-        builder.append("\t}\n");
         builder.append("}");
         return builder.toString();
     }
